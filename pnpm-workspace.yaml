@@ -1,0 +1,9 @@
+packages:
+  - '.'
+
+allowBuilds:
+  unrs-resolver: true
+  vite-plugin-vue-tailwind-auto-reference: false
+
+publicHoistPattern:
+  - '@inertiajs/core'
