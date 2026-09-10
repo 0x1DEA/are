@@ -35,7 +35,7 @@ import { $$ } from '@/lib/utils.ts';
             </div>
             <div class="flex gap-4">
                 <SocialIcons />
-                <span class="font-bold">{{ $$.tel_s }}</span>
+                <a :href="`tel:${$$.tel}`" class="font-bold">{{ $$.tel_s }}</a>
             </div>
         </div>
     </header>

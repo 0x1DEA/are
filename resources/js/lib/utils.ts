@@ -9,6 +9,8 @@ export const $$ = {
     tel_s: '+1 (773) 735-4400',
     addr: '5744 S Pulaski Rd, Chicago, IL 60629',
     email: 'info@americarealestateinc.com',
+    social_facebook: 'https://www.facebook.com/AmericaRealEstateInc/',
+    social_instagram: 'https://www.instagram.com/americarealestateinc/',
 };
 
 export function cn(...inputs: ClassValue[]) {

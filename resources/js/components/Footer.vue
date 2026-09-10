@@ -10,8 +10,8 @@ import { $$ } from '@/lib/utils.ts';
                 <!--                    <p>America Real Estate has been providing excellent real estate services since 1998</p>-->
             </div>
             <div class="flex flex-col">
-                <span>{{ $$.tel_s }}</span>
-                <span>{{ $$.email }}</span>
+                <a :href="`tel:${$$.tel}`">{{ $$.tel_s }}</a>
+                <a :href="`mailto:${$$.email}`">{{ $$.email }}</a>
                 <span>{{ $$.addr }}</span>
                 <SocialIcons class="mt-2" />
             </div>

@@ -7,6 +7,7 @@ import AgentCard from '@/components/AgentCard.vue';
 import cities_csv from '~/assets/cities.csv?raw';
 import { computed, onBeforeMount, ref, useTemplateRef } from 'vue';
 import Footer from '@/components/Footer.vue';
+import { $$ } from '@/lib/utils.ts';
 
 const cities = ref([]);
 
@@ -71,7 +72,7 @@ const scrollDown = () => {
             >
                 <div class="flex items-center gap-2 px-2 py-1">
                     <SocialIcons />
-                    <span class="text-xl font-bold">+1 (773) 735-4400</span>
+                    <a :href="`tel:${$$.tel}`" class="text-xl font-bold">{{ $$.tel_s }}</a>
                 </div>
                 <nav class="flex justify-end space-x-2 text-xl font-bold">
                     <Link href="/search" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Search</Link>
@@ -181,7 +182,7 @@ const scrollDown = () => {
                         <h1 class="text-2xl font-bold">Hours</h1>
                         <p>9-5 Mon-Sat</p>
                         <h1 class="text-2xl font-bold">Phone</h1>
-                        <p>+1 (773) 735-4400</p>
+                        <a :href="`tel:${$$.tel}`">{{$$.tel_s}}</a>
                     </div>
                     <div class="flex w-1/2 flex-col gap-4 rounded-lg bg-black/50 p-4 backdrop-blur">
                         <h2 class="text-4xl font-bold">Contact Us</h2>
