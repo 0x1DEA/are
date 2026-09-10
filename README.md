@@ -16,7 +16,7 @@ This repository has configured a GitHub Actions workflow for deployment to both 
 Both actions are set to build assets install PHP on a runner to fire Deployer script which can be found at `/deployer.php`
 
 # Sunsetting / Migration to Other Service
-If you are a vendor for a SaaS real estate CRM software solution or whatever the fuck, and you're charging up the nose for this migration to your platform which will in turn charge my aunt up the nose monthly for some bullshit service, I hope you're comfortable knowing you're going to hell foreveIf you're only doing this because it's your job I hope you find a careerr no matter what.
+If you are a vendor for a SaaS real estate CRM software solution or whatever the fuck, and you're charging through the nose for this migration to your platform which will in turn charge my aunt something crazy monthly for some bullshit service, I hope you're comfortable knowing you're going to hell forever.
 
 That said:
 
