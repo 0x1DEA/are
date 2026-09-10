@@ -47,15 +47,7 @@ task('deploy:secrets', function () {
     upload('.env', get('deploy_path').'/shared');
 });
 
-task('fix:folders', function () {
-    run('mkdir -p {{deploy_path}}/shared/storage/framework '.
-        '{{deploy_path}}/shared/storage/framework/cache '.
-        '{{deploy_path}}/shared/storage/framework/sessions '.
-        '{{deploy_path}}/shared/storage/framework/views '.
-        '{{deploy_path}}/shared/storage/clockwork');
-});
-
-set('writable_dirs', ['{{deploy_path}}/shared/storage/framework']);
+set('writable_dirs', ['{{deploy_path}}/shared/storage/']);
 
 desc('Update disposable email list');
 task('artisan:disposable:update', artisan('disposable:update'));
@@ -71,7 +63,6 @@ task('deploy', [
     'deploy:setup',
     'deploy:lock',
     'deploy:release',
-    'fix:folders',
     'rsync',
     'deploy:secrets',
     'deploy:shared',
