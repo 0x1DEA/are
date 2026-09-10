@@ -82,16 +82,15 @@ jobs:
       - name: Composer install
         run: composer install
 
-      - name: Setup Deployer
+      - name: Configure .env
+        run: echo "${{ secrets.DOT_ENV }}" > .env
+
+      - name: Deploy
         uses: deployphp/action@v1
+        env:
+          DOT_ENV: ${{ secrets.DOT_ENV }}
         with:
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           dep: 'deploy env=staging'
           verbosity: '-vvv'
-
-      - name: Deploy to Staging
-        env:
-          DOT_ENV: ${{ secrets.DOT_ENV }}
-        run: |
-          /usr/bin/php vendor/bin/dep deploy env=staging -vvv
