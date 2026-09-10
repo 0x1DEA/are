@@ -93,10 +93,15 @@ task('deploy', [
     'deploy:unlock',
     'deploy:cleanup',
     'deploy:success',
+    'cronfigure',
 ]);
 
-after('deploy:success', 'crontab:sync');
-add('crontab:jobs', [
-    '* * * * * cd {{deploy_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
-]);
-set('crontab:identifier', 'are-'.get('labels')['env']);
+desc('Set cron jobs');
+task('cronfigure', function () {
+    add('crontab:jobs', [
+        '* * * * * cd {{deploy_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
+    ]);
+    set('crontab:identifier', 'are-'.get('labels')['env']);
+});
+
+after('cronfigure', 'crontab:sync');
