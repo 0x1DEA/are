@@ -67,7 +67,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ssr
-          path: boostrap/ssr
+          path: boostrap
 
       - name: Extract build files
         run: tar -xzvf bootstrap/ssr.tar.gz
