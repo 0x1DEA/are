@@ -1,6 +1,9 @@
 name: CI-CD
 
-on: push
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
   build:
@@ -12,6 +15,16 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 6.0.2
+
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: 8.5
+          extensions: mbstring, bcmath, dom, libxml, imagick, zlib
+
+      - name: Composer install
+        run: composer install
 
       - name: Build
         run: |
@@ -59,13 +72,16 @@ jobs:
         with:
           php-version: 8.5
           extensions: mbstring, bcmath, dom, libxml, imagick, zlib
+
       - name: Composer install
         run: composer install
+
       - name: Setup Deployer
         uses: atymic/deployer-php-action@master
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
       - name: Deploy to Staging
         env:
           DOT_ENV: ${{ secrets.DOT_ENV }}
