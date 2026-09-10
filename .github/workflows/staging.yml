@@ -49,8 +49,9 @@ jobs:
           name: ssr
           path: ssr.tar.gz
   deploy:
-    name: Deploy to Production
+    name: Deploy to Staging
     runs-on: ubuntu-latest
+    environment: Staging
     needs: [build]
     steps:
       - uses: actions/checkout@v1
