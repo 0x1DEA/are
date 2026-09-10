@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import SocialIcons from '@/components/SocialIcons.vue';
 import office_bg from '~/assets/office.jpg';
 import chicago_bg from '~/assets/sawyer-bengtson-tnv84LOjes4-unsplash.jpg';
@@ -50,6 +50,23 @@ const scrollDown = () => {
         behavior: 'smooth'
     });
 }
+
+const contactForm = useForm({
+    subject: '',
+    email: '',
+    content: '',
+});
+
+const contactSubmit = () => {
+    contactForm.post('/contact', {
+        onSuccess: () => {
+            contacted.value = true;
+        },
+        preserveScroll: true,
+    });
+}
+
+const contacted = ref(false);
 </script>
 <template>
     <Head title="Welcome">
@@ -186,22 +203,28 @@ const scrollDown = () => {
                     </div>
                     <div class="flex w-1/2 flex-col gap-4 rounded-lg bg-black/50 p-4 backdrop-blur">
                         <h2 class="text-4xl font-bold">Contact Us</h2>
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            class="rounded bg-white px-2 py-1 text-black placeholder:text-neutral-500"
-                        />
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            class="rounded bg-white px-2 py-1 text-black placeholder:text-neutral-500"
-                        />
-                        <textarea
-                            rows="4"
-                            class="rounded bg-white px-2 py-1 text-black placeholder:text-neutral-500"
-                            placeholder="Message"
-                        ></textarea>
-                        <button class="rounded-lg bg-white/25 px-4 py-1">Send</button>
+                        <p v-if="contacted">Thank you for reaching out! We'll get back to you shortly!</p>
+                        <div v-else class="flex flex-col gap-4">
+                            <input
+                                v-model="contactForm.subject"
+                                type="text"
+                                placeholder="Name"
+                                class="rounded bg-white px-2 py-1 text-black placeholder:text-neutral-500"
+                            />
+                            <input
+                                v-model="contactForm.email"
+                                type="text"
+                                placeholder="Email"
+                                class="rounded bg-white px-2 py-1 text-black placeholder:text-neutral-500"
+                            />
+                            <textarea
+                                v-model="contactForm.content"
+                                rows="4"
+                                class="rounded bg-white px-2 py-1 text-black placeholder:text-neutral-500"
+                                placeholder="Message"
+                            ></textarea>
+                            <button @click="contactSubmit()" class="rounded-lg bg-white/25 px-4 py-1 cursor-pointer">Send</button>
+                        </div>
                     </div>
                 </div>
             </div>

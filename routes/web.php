@@ -1,13 +1,15 @@
 <?php
 
+use App\Models\Agent;
 use App\Models\Listing;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'agents' => \App\Models\Agent::query()
+        'agents' => Agent::query()
             ->where('is_active', true)
             ->get(),
     ]);
@@ -19,7 +21,6 @@ Route::get('/listing/{listing:mls_id}', function (Listing $listing) {
     ]);
 })->name('listing.show');
 
-
 Route::get('/search', function (Request $request) {
     return Inertia::render('Search', [
         'lat' => $request->float('lat', 41.85),
@@ -27,3 +28,13 @@ Route::get('/search', function (Request $request) {
         'zoom' => $request->float('zoom', 11),
     ]);
 })->name('search');
+
+Route::post('/contact', function (Request $request) {
+    $message = new Message;
+    $message->email = $request->string('email');
+    $message->subject = $request->string('subject');
+    $message->content = $request->string('content');
+    $message->save();
+
+    return back();
+});

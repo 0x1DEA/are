@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('sender_id')->nullable();
+            $table->foreignId('recipient_id')->nullable();
+
+            $table->string('email')->nullable();
+            $table->string('subject')->nullable();
+
+            $table->text('content')->nullable();
+
             $table->timestamps();
         });
     }
