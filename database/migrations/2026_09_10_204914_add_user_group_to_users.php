@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('group_id')->nullable();
+            $table->tinyInteger('group_id')->after('remember_token')->nullable();
         });
     }
 
