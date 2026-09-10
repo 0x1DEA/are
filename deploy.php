@@ -19,7 +19,7 @@ host('production')
     ->setPort(getenv('CI_SSH_PORT_PRODUCTION'))
     ->setDeployPath('/var/www/are')
     ->set('branch', 'main')
-    ->setLabels(['stage' => 'production']);
+    ->setLabels(['env' => 'production']);
 
 host('staging')
     ->setHostname(getenv('CI_HOST_STAGING'))
@@ -27,7 +27,7 @@ host('staging')
     ->setPort(getenv('CI_SSH_PORT_STAGING'))
     ->setDeployPath('/var/www/are-staging')
     ->set('branch', 'develop')
-    ->setLabels(['stage' => 'staging']);
+    ->setLabels(['env' => 'staging']);
 
 add('rsync', [
     'exclude' => [
@@ -66,7 +66,7 @@ task('artisan:cloudflare:reload', artisan('cloudflare:reload'));
 after('deploy:failed', 'deploy:unlock');
 
 desc('Deploy the application');
-task('launch', [
+task('deploy', [
     'deploy:info',
     'deploy:setup',
     'deploy:lock',
@@ -99,4 +99,4 @@ after('deploy:success', 'crontab:sync');
 add('crontab:jobs', [
     '* * * * * cd {{deploy_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
 ]);
-set('crontab:identifier', 'are-'.currentHost()->getLabels()['staging']);
+set('crontab:identifier', 'are-'.get('labels')['env']);
