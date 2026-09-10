@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('phone_work')->nullable();
             $table->string('phone_fax')->nullable();
 
-            $table->string('type')->unique();
+            $table->string('type');
 
             $table->address('personal', true);
 

@@ -27,20 +27,37 @@ return new class extends Migration
             $table->unsignedInteger('full_bathrooms')->nullable();
             $table->unsignedInteger('half_bathrooms')->nullable();
 
-            $table->double('sales_price')->nullable();
+            $table->double('sale_price_original')->nullable();
+            $table->double('sale_price')->nullable();
+            $table->double('rent_price_original')->nullable();
+            $table->double('rent_price')->nullable();
             $table->double('real_estate_tax')->nullable();
             $table->double('common_charges')->nullable();
+
+            $table->string('status')->nullable();
+
+            $table->text('public_remarks')->nullable();
+            $table->text('private_remarks')->nullable();
 
             $table->string('type')->nullable();
             $table->string('year_built')->nullable();
             $table->string('neighborhood')->nullable();
 
+            $table->boolean('feed_idx')->default(false);
+            $table->boolean('feed_vow')->default(false);
+            $table->boolean('feed_bo')->default(false);
+            $table->boolean('feed_pt')->default(false);
+
             $table->geometry('coordinates', 'point', 4326)->nullable();
 
-            $table->json('data')->nullable();
+            $table->json('mls_data')->nullable();
+            $table->timestamp('mls_fetched_at')->nullable();
 
             $table->json('geo_data')->nullable();
+            $table->double('geo_accuracy')->nullable();
             $table->timestamp('geo_fetched_at')->nullable();
+
+            $table->timestamp('listed_at')->nullable();
 
             $table->timestamps();
         });

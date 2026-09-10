@@ -14,7 +14,9 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.14",
-        "matanyadaev/laravel-eloquent-spatial": "^4.8"
+        "matanyadaev/laravel-eloquent-spatial": "^4.8",
+        "monicahq/laravel-cloudflare": "^4.1",
+        "propaganistas/laravel-disposable-email": "^2.5"
     },
     "require-dev": {
         "deployer/deployer": "^8.0",

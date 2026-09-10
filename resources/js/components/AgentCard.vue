@@ -4,11 +4,11 @@ const props = defineProps({
 });
 </script>
 <template>
-    <div class="flex flex-col relative z-0 group">
-        <div class="absolute inset-0 overflow-hidden">
-            <img :src="'storage/' + agent.headshot_url" alt="" class="group-hover:scale-110 transition-transform"/>
+    <div class="flex flex-col relative z-0 group bg-neutral-200 rounded-lg">
+        <div class="absolute inset-0 overflow-hidden rounded-lg">
+            <img :src="'storage/' + agent.headshot_url" alt="" loading="lazy" class="size-full group-hover:scale-110 transition-transform object-cover object-center"/>
         </div>
-        <div class="flex flex-col text-white z-10 p-4 pt-48 bg-linear-to-b from-transparent to-black/50">
+        <div class="flex flex-col justify-end text-white z-10 p-4 pt-48 bg-linear-to-b from-transparent to-black/50 aspect-3/4 rounded-lg">
             <span class="text-lg uppercase">{{ agent.name_first }}</span>
             <span class="text-2xl uppercase">{{ agent.name_last }}</span>
             <div class="flex gap-1 items-center rounded-full pl-2 pr-4 mt-4 w-fit py-1 bg-blue-500">

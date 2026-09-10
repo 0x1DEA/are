@@ -1,0 +1,600 @@
+1,Chicago,city,41.8370,-87.6849
+2,Joliet,city,41.5169,-88.1480
+3,Rockford,city,42.2593,-89.0635
+4,Springfield,city,39.7911,-89.6446
+5,Peoria,city,40.7516,-89.6172
+6,Aurora,city,41.7635,-88.2901
+7,Decatur,city,39.8560,-88.9337
+8,Naperville,city,41.7492,-88.1620
+9,Elgin,city,42.0390,-88.3257
+10,Godfrey,village,38.9529,-90.2225
+11,Bloomington,city,40.4758,-88.9699
+12,Barrington Hills,village,42.1386,-88.2030
+13,Plainfield,village,41.6303,-88.2453
+14,Bolingbrook,village,41.6875,-88.1062
+15,Waukegan,city,42.3694,-87.8709
+16,Belleville,city,38.5160,-89.9898
+17,Champaign,city,40.1141,-88.2746
+18,Homer Glen,village,41.6052,-87.9524
+19,Orland Park,village,41.6081,-87.8593
+20,East Peoria,city,40.6734,-89.5418
+21,Hoffman Estates,village,42.0643,-88.1446
+22,Yorkville,city,41.6617,-88.4286
+23,Edwardsville,city,38.7908,-89.9886
+24,Schaumburg,village,42.0289,-88.0838
+25,Romeoville,village,41.6279,-88.1012
+26,Granite City,city,38.7293,-90.1255
+27,Crystal Lake,city,42.2332,-88.3344
+28,Normal,town,40.5201,-88.9922
+29,Danville,city,40.1426,-87.6107
+30,Galesburg,city,40.9502,-90.3766
+31,Rock Island,city,41.4694,-90.5853
+32,DeKalb,city,41.9282,-88.7476
+33,Carbondale,city,37.7221,-89.2237
+34,Lake Forest,city,42.2353,-87.8573
+35,Campton Hills,village,41.9502,-88.4170
+36,Moline,city,41.4823,-90.4934
+37,Arlington Heights,village,42.0974,-87.9817
+38,Channahon,village,41.4228,-88.2630
+39,Loves Park,city,42.3378,-88.9986
+40,Tinley Park,village,41.5686,-87.8042
+41,New Lenox,village,41.5100,-87.9700
+42,Quincy,city,39.9337,-91.3793
+43,Oswego,village,41.6832,-88.3388
+44,O'Fallon,city,38.6000,-89.9154
+45,Cahokia Heights,city,38.5721,-90.1553
+46,Bartlett,village,41.9606,-88.1777
+47,Pekin,city,40.5688,-89.6251
+48,Alton,city,38.9039,-90.1512
+49,Frankfort,village,41.5070,-87.8710
+50,Collinsville,city,38.6757,-90.0058
+51,West Chicago,city,41.8945,-88.2211
+52,Kankakee,city,41.1017,-87.8637
+53,Ottawa,city,41.3540,-88.8234
+54,McHenry,city,42.3362,-88.2917
+55,Mount Vernon,city,38.3142,-88.9175
+56,Huntley,village,42.1608,-88.4355
+57,Downers Grove,village,41.7950,-88.0211
+58,East Moline,city,41.5199,-90.3879
+59,Glenview,village,42.0852,-87.8274
+60,St. Charles,city,41.9194,-88.3107
+61,Marion,city,37.7344,-88.9412
+62,Des Plaines,city,42.0344,-87.9011
+63,Madison,city,38.6863,-90.1018
+64,Palatine,village,42.1165,-88.0444
+65,Wilmington,city,41.3194,-88.1602
+66,East St. Louis,city,38.6164,-90.1305
+67,Rochelle,city,41.9191,-89.0637
+68,Elwood,village,41.4181,-88.1172
+69,Lake Carroll,cdp,42.1706,-89.8647
+70,Gurnee,village,42.3701,-87.9368
+71,LaSalle,city,41.3352,-89.0972
+72,Northbrook,village,42.1287,-87.8352
+73,Woodstock,city,42.3095,-88.4353
+74,Morton,village,40.6137,-89.4668
+75,Machesney Park,village,42.3677,-89.0245
+76,Belvidere,city,42.2654,-88.8878
+77,Algonquin,village,42.1595,-88.3219
+78,Shiloh,village,38.5492,-89.9131
+79,Morris,city,41.3802,-88.4243
+80,Long Grove,village,42.1950,-88.0110
+81,Highland Park,city,42.1824,-87.8108
+82,Freeport,city,42.2890,-89.6343
+83,Urbana,city,40.1101,-88.1973
+84,Lockport,city,41.5910,-88.0297
+85,Elk Grove Village,village,42.0058,-87.9930
+86,Fairview Heights,city,38.5953,-90.0047
+87,Wheaton,city,41.8568,-88.1081
+88,Sparta,city,38.1394,-89.7305
+89,The Galena Territory,cdp,42.3937,-90.3250
+90,Batavia,city,41.8477,-88.3110
+91,Mundelein,village,42.2734,-88.0162
+92,Grayslake,village,42.3408,-88.0336
+93,Effingham,city,39.1207,-88.5509
+94,University Park,village,41.4469,-87.7130
+95,Mount Prospect,village,42.0642,-87.9374
+96,Macomb,city,40.4701,-90.6831
+97,Old Mill Creek,village,42.4331,-87.9822
+98,Jacksonville,city,39.7292,-90.2322
+99,Columbia,city,38.4581,-90.2160
+100,Sugar Grove,village,41.7686,-88.4489
+101,Chicago Heights,city,41.5107,-87.6341
+102,Glen Carbon,village,38.7582,-89.9831
+103,Peru,city,41.3579,-89.1394
+104,Taylorville,city,39.5627,-89.3083
+105,Mattoon,city,39.4778,-88.3622
+106,Roscoe,village,42.4256,-89.0095
+107,Elmhurst,city,41.8970,-87.9437
+108,Lake in the Hills,village,42.1794,-88.3155
+109,Lombard,village,41.8738,-88.0155
+110,Sycamore,city,41.9967,-88.6776
+111,Geneva,city,41.8821,-88.3295
+112,Skokie,village,42.0360,-87.7400
+113,Hampshire,village,42.1156,-88.5052
+114,Montgomery,village,41.7210,-88.3581
+115,Pontoon Beach,village,38.7218,-90.0636
+116,Zion,city,42.4599,-87.8511
+117,Wadsworth,village,42.4507,-87.9251
+118,Bull Valley,village,42.3235,-88.3609
+119,Addison,village,41.9308,-88.0090
+120,Mahomet,village,40.1901,-88.3895
+121,Herrin,city,37.7984,-89.0306
+122,Mascoutah,city,38.5181,-89.8000
+123,Woodridge,village,41.7374,-88.0441
+124,Buffalo Grove,village,42.1660,-87.9618
+125,Minooka,village,41.4476,-88.2842
+126,Dixon,city,41.8433,-89.4775
+127,Crete,village,41.4405,-87.6245
+128,Olive Branch,cdp,37.1837,-89.3495
+129,Bourbonnais,village,41.1830,-87.8785
+130,Matteson,village,41.5089,-87.7460
+131,Carol Stream,village,41.9203,-88.1332
+132,Charleston,city,39.4848,-88.1776
+133,Spring Grove,village,42.4507,-88.2402
+134,Marseilles,city,41.2822,-88.6814
+135,Plano,city,41.6804,-88.5363
+136,Crest Hill,city,41.5744,-88.1133
+137,Litchfield,city,39.1760,-89.6655
+138,Marengo,city,42.2465,-88.5975
+139,Lemont,village,41.6673,-87.9844
+140,Libertyville,village,42.2847,-87.9665
+141,Hillsboro,city,39.1762,-89.4729
+142,Mokena,village,41.5299,-87.8777
+143,Wheeling,village,42.1296,-87.9215
+144,Oak Lawn,village,41.7139,-87.7528
+145,Washington,city,40.7064,-89.4335
+146,Rantoul,village,40.3026,-88.1549
+147,Pontiac,city,40.8892,-88.6414
+148,Cherry Valley,village,42.2352,-88.9751
+149,Canton,city,40.5639,-90.0366
+150,Harvard,city,42.4296,-88.6211
+151,Waterloo,city,38.3412,-90.1527
+152,Antioch,village,42.4772,-88.0671
+153,Princeton,city,41.3806,-89.4641
+154,Centralia,city,38.5221,-89.1235
+155,Vandalia,city,38.9746,-89.1107
+156,Hawthorn Woods,village,42.2358,-88.0675
+157,Shorewood,village,41.5175,-88.2152
+158,Bartonville,village,40.6420,-89.6598
+159,North Chicago,city,42.3167,-87.8592
+160,Oak Brook,village,41.8364,-87.9532
+161,Poplar Grove,village,42.3511,-88.8438
+162,Carpentersville,village,42.1227,-88.2939
+163,Fox Lake,village,42.4282,-88.1839
+164,Streamwood,village,42.0206,-88.1778
+165,Evanston,city,42.0464,-87.6944
+166,Vernon Hills,village,42.2344,-87.9611
+167,Bethalto,village,38.9017,-90.0448
+168,North Aurora,village,41.8087,-88.3420
+169,Burr Ridge,village,41.7479,-87.9201
+170,Lansing,village,41.5650,-87.5460
+171,South Barrington,village,42.0890,-88.1572
+172,Spring Valley,city,41.3229,-89.1834
+173,Chatham,village,39.6745,-89.6933
+174,Streator,city,41.1250,-88.8296
+175,Caseyville,village,38.6290,-90.0345
+176,Bradley,village,41.1637,-87.8465
+177,South Elgin,village,41.9903,-88.3143
+178,Johnsburg,village,42.3832,-88.2468
+179,South Holland,village,41.5984,-87.6027
+180,Marissa,village,38.2497,-89.7714
+181,Calumet City,city,41.5965,-87.5386
+182,Highland,city,38.7698,-89.6861
+183,Roxana,village,38.8216,-90.0459
+184,Park Ridge,city,42.0118,-87.8434
+185,Beach Park,village,42.4423,-87.8754
+186,Salem,city,38.6275,-88.9594
+187,Cairo,city,37.0063,-89.1829
+188,Du Quoin,city,38.0017,-89.2328
+189,Wood River,city,38.8633,-90.0776
+190,Glen Ellyn,village,41.8667,-88.0627
+191,Olney,city,38.7281,-88.0842
+192,Lake Zurich,village,42.1950,-88.0877
+193,Lisle,village,41.7921,-88.0877
+194,Rockton,village,42.4471,-89.0631
+195,Burlington,village,42.0529,-88.5689
+196,Freeburg,village,38.4391,-89.9162
+197,Bloomingdale,village,41.9515,-88.0891
+198,Manhattan,village,41.4202,-87.9807
+199,Harrisburg,city,37.7377,-88.5458
+200,Kewanee,city,41.2391,-89.9257
+201,Lake Villa,village,42.4176,-88.0826
+202,Inverness,village,42.1151,-88.1009
+203,Alsip,village,41.6703,-87.7371
+204,Cary,village,42.2121,-88.2496
+205,Warsaw,city,40.3510,-91.4280
+206,Swansea,village,38.5518,-89.9875
+207,Palos Park,village,41.6662,-87.8296
+208,Hanover Park,village,41.9825,-88.1429
+209,Dupo,village,38.5161,-90.2176
+210,Greenville,city,38.8866,-89.3894
+211,Milan,village,41.4355,-90.5627
+212,Lincoln,city,40.1507,-89.3703
+213,Troy,city,38.7262,-89.8935
+214,Amboy,city,41.7159,-89.3409
+215,Harvey,city,41.6076,-87.6520
+216,Seneca,village,41.3026,-88.6147
+217,Fairmont City,village,38.6465,-90.1002
+218,Darien,city,41.7457,-87.9815
+219,South Beloit,city,42.4848,-89.0274
+220,Prairie Grove,village,42.2739,-88.2699
+221,Oak Forest,city,41.6067,-87.7533
+222,Metropolis,city,37.1496,-88.6874
+223,Sterling,city,41.7997,-89.6959
+224,Bedford Park,village,41.7678,-87.7726
+225,Cicero,town,41.8445,-87.7593
+226,Niles,village,42.0279,-87.8100
+227,Maryville,village,38.7288,-89.9663
+228,Chester,city,37.9258,-89.8277
+229,Coal City,village,41.2789,-88.2801
+230,Lake Barrington,village,42.2102,-88.1695
+231,Wayne,village,41.9473,-88.2532
+232,Paris,city,39.6151,-87.6891
+233,Rolling Meadows,city,42.0749,-88.0254
+234,Round Lake,village,42.3432,-88.1021
+235,Roselle,village,41.9802,-88.0859
+236,Deerfield,village,42.1661,-87.8525
+237,Bensenville,village,41.9580,-87.9438
+238,Benton,city,38.0132,-88.9173
+239,Gilberts,village,42.1100,-88.3719
+240,Mettawa,village,42.2434,-87.9214
+241,Warrenville,city,41.8210,-88.1875
+242,Markham,city,41.6000,-87.6905
+243,Wilmette,village,42.0773,-87.7286
+244,Glendale Heights,village,41.9189,-88.0781
+245,Manteno,village,41.2478,-87.8443
+246,East Alton,village,38.8841,-90.1079
+247,Hennepin,village,41.2505,-89.3141
+248,Carterville,city,37.7628,-89.0845
+249,Braidwood,city,41.2702,-88.2234
+250,Lakemoor,village,42.3389,-88.2027
+251,Makanda,village,37.6203,-89.2371
+252,Chillicothe,city,40.9160,-89.5027
+253,Murphysboro,city,37.7672,-89.3324
+254,Jerseyville,city,39.1172,-90.3267
+255,Homewood,village,41.5594,-87.6620
+256,Hartford,village,38.8131,-90.0921
+257,Mendota,city,41.5567,-89.1005
+258,Lynwood,village,41.5226,-87.5505
+259,Morton Grove,village,42.0423,-87.7890
+260,Wauconda,village,42.2770,-88.1353
+261,Round Lake Beach,village,42.3824,-88.0807
+262,Itasca,village,41.9766,-88.0188
+263,Westmont,village,41.7944,-87.9729
+264,Oglesby,city,41.2932,-89.0710
+265,West Frankfort,city,37.8995,-88.9308
+266,Country Club Hills,city,41.5635,-87.7254
+267,Wonder Lake,village,42.3834,-88.3500
+268,Park Forest,village,41.4817,-87.6868
+269,Mount Carmel,city,38.4190,-87.7698
+270,Wood Dale,city,41.9663,-87.9809
+271,Pittsfield,city,39.6005,-90.8101
+272,Franklin Park,village,41.9360,-87.8792
+273,Sandwich,city,41.6501,-88.6190
+274,North Barrington,village,42.2069,-88.1289
+275,Villa Park,village,41.8856,-87.9782
+276,Geneseo,city,41.4513,-90.1548
+277,Oak Park,village,41.8872,-87.7899
+278,Robinson,city,39.0086,-87.7334
+279,Flora,city,38.6656,-88.4738
+280,Winthrop Harbor,village,42.4797,-87.8277
+281,Byron,city,42.1218,-89.2668
+282,Joslin,cdp,41.5446,-90.2219
+283,Hinsdale,village,41.8007,-87.9282
+284,Galena,city,42.4221,-90.4278
+285,Monee,village,41.4178,-87.7499
+286,Barrington,village,42.1515,-88.1285
+287,Sauget,village,38.5859,-90.1531
+288,Lakewood,village,42.2245,-88.3867
+289,Dolton,village,41.6303,-87.5968
+290,Lincolnshire,village,42.1965,-87.9177
+291,Lindenhurst,village,42.4171,-88.0264
+292,Smithton,village,38.4143,-89.9901
+293,Richton Park,village,41.4802,-87.7425
+294,Melrose Park,village,41.9030,-87.8636
+295,Scott AFB,cdp,38.5430,-89.8521
+296,Big Rock,village,41.7668,-88.5264
+297,Kildeer,village,42.1814,-88.0489
+298,Richmond,village,42.4638,-88.3094
+299,Silvis,city,41.4977,-90.4101
+300,Oak Run,cdp,40.9599,-90.1301
+301,Mount Zion,village,39.7840,-88.8850
+302,Palos Hills,city,41.7007,-87.8253
+303,Monmouth,city,40.9142,-90.6431
+304,Creve Coeur,village,40.6382,-89.6017
+305,Fairview,village,40.6547,-90.1832
+306,Prospect Heights,city,42.1037,-87.9290
+307,Hopkins Park,village,41.0691,-87.6064
+308,Davis Junction,village,42.1146,-89.0903
+309,Burbank,city,41.7444,-87.7686
+310,Willow Springs,village,41.7341,-87.8840
+311,Shelbyville,city,39.4103,-88.7997
+312,Auburn,city,39.5763,-89.7440
+313,Volo,village,42.3303,-88.1587
+314,Bridgeview,village,41.7403,-87.8067
+315,Pinckneyville,city,38.0861,-89.3270
+316,Fairfield,city,38.3806,-88.3725
+317,Lake Bluff,village,42.2827,-87.8523
+318,Blue Island,city,41.6576,-87.6811
+319,Pingree Grove,village,42.0866,-88.4324
+320,Monticello,city,40.0335,-88.5741
+321,West Dundee,village,42.1044,-88.3335
+322,Staunton,city,39.0117,-89.7907
+323,Sauk Village,village,41.4901,-87.5706
+324,Green Oaks,village,42.3000,-87.9110
+325,Rock Falls,city,41.7721,-89.6942
+326,Riverwoods,village,42.1729,-87.8949
+327,Twin Grove,cdp,40.4793,-89.1015
+328,Berwyn,city,41.8433,-87.7909
+329,Dwight,village,41.0987,-88.4221
+330,Ringwood,village,42.3973,-88.3041
+331,Pana,city,39.3946,-89.0908
+332,Colona,city,41.4734,-90.3324
+333,Winnetka,village,42.1062,-87.7428
+334,Tilton,village,40.0950,-87.6421
+335,Palos Heights,city,41.6634,-87.7960
+336,Buffalo Prairie,cdp,41.3409,-90.8482
+337,Elburn,village,41.8860,-88.4609
+338,Glencoe,village,42.1345,-87.7632
+339,Apple Canyon Lake,cdp,42.4338,-90.1597
+340,Grafton,city,38.9765,-90.4257
+341,Anna,city,37.4611,-89.2375
+342,Westchester,village,41.8492,-87.8906
+343,Hoopeston,city,40.4608,-87.6636
+344,Deer Park,village,42.1663,-88.0862
+345,Marshall,city,39.3995,-87.6912
+346,Flossmoor,village,41.5391,-87.6857
+347,Beardstown,city,40.0101,-90.4311
+348,Cortland,town,41.9372,-88.6893
+349,Riverdale,village,41.6427,-87.6356
+350,Clinton,city,40.1470,-88.9630
+351,Hamilton,city,40.3915,-91.3613
+352,Millstadt,village,38.4575,-90.0859
+353,Hillcrest,village,41.9668,-89.0626
+354,Lake Holiday,cdp,41.6201,-88.6649
+355,North Utica,village,41.3536,-89.0196
+356,Carlyle,city,38.6223,-89.3754
+357,Valmeyer,village,38.3058,-90.2983
+358,Grant Park,village,41.2427,-87.6358
+359,Steger,village,41.4723,-87.6178
+360,Hazel Crest,village,41.5742,-87.6893
+361,Nauvoo,city,40.5445,-91.3828
+362,Carlinville,city,39.2775,-89.8761
+363,Island Lake,village,42.2788,-88.2005
+364,Olmsted,village,37.1824,-89.0840
+365,Heyworth,village,40.3144,-88.9923
+366,Savoy,village,40.0591,-88.2545
+367,Glenwood,village,41.5410,-87.6117
+368,Northfield,village,42.1030,-87.7774
+369,Riverton,village,39.8461,-89.5364
+370,Northlake,city,41.9143,-87.9055
+371,Hillside,village,41.8675,-87.9018
+372,Coal Valley,village,41.4384,-90.4394
+373,Evergreen Park,village,41.7213,-87.7013
+374,Sherman,village,39.8903,-89.6045
+375,Braceville,village,41.2253,-88.2676
+376,Forsyth,village,39.9261,-88.9641
+377,Winfield,village,41.8784,-88.1530
+378,Nashville,city,38.3536,-89.3780
+379,Brookfield,village,41.8251,-87.8475
+380,Ridge Farm,village,39.8957,-87.6520
+381,Crestwood,village,41.6456,-87.7401
+382,Paxton,city,40.4563,-88.1034
+383,Downs,village,40.3988,-88.8892
+384,Gages Lake,cdp,42.3516,-87.9824
+385,Tuscola,city,39.7959,-88.2755
+386,Watseka,city,40.7751,-87.7304
+387,Olympia Fields,village,41.5220,-87.6916
+388,East Dundee,village,42.0974,-88.2481
+389,Gardner,village,41.1945,-88.3115
+390,Countryside,city,41.7742,-87.8752
+391,East Dubuque,city,42.4883,-90.6242
+392,Hickory Hills,city,41.7248,-87.8280
+393,Justice,village,41.7534,-87.8269
+394,Vienna,city,37.4136,-88.8866
+395,Long Creek,village,39.8052,-88.8473
+396,Midlothian,village,41.6254,-87.7242
+397,Ullin,village,37.2802,-89.1758
+398,Galva,city,41.1690,-90.0374
+399,Western Springs,village,41.8023,-87.9006
+400,Dunlap,village,40.8452,-89.6759
+401,Havana,city,40.2951,-90.0578
+402,Schiller Park,village,41.9586,-87.8693
+403,Sullivan,city,39.5952,-88.6089
+404,McLeansboro,city,38.0903,-88.5386
+405,Beecher,village,41.3500,-87.6173
+406,Eureka,city,40.7140,-89.2770
+407,Willow Lake,cdp,42.3342,-89.6353
+408,Lily Lake,village,41.9573,-88.4720
+409,Maywood,village,41.8798,-87.8442
+410,Hodgkins,village,41.7661,-87.8619
+411,New Milford,village,42.1685,-89.0455
+412,Jonesboro,city,37.4510,-89.2666
+413,Lebanon,city,38.6007,-89.8097
+414,Lincolnwood,village,42.0054,-87.7330
+415,Goreville,village,37.5551,-88.9735
+416,Limestone,village,41.1487,-87.9559
+417,Rochester,village,39.7428,-89.5217
+418,Chatsworth,town,40.7214,-88.2996
+419,Breese,city,38.6138,-89.5237
+420,Greenwood,village,42.3954,-88.3838
+421,Lena,village,42.3786,-89.8217
+422,Red Bud,city,38.2075,-90.0024
+423,Casey,city,39.3054,-87.9853
+424,Savanna,city,42.0938,-90.1391
+425,McCook,village,41.7983,-87.8416
+426,Genoa,city,42.0910,-88.6950
+427,Carmi,city,38.0862,-88.1721
+428,White Hall,city,39.4386,-90.4011
+429,Willowbrook,village,41.7673,-87.9421
+430,Keithsburg,city,41.1000,-90.9361
+431,Washington Park,village,38.6285,-90.0926
+432,La Grange,village,41.8072,-87.8741
+433,Morrison,city,41.8076,-89.9617
+434,Carthage,city,40.4143,-91.1281
+435,Eldorado,city,37.8117,-88.4416
+436,Somonauk,village,41.6347,-88.6875
+437,Frankfort Square,cdp,41.5219,-87.8031
+438,Peoria Heights,village,40.7467,-89.5700
+439,River Forest,village,41.8949,-87.8191
+440,De Pue,village,41.3296,-89.3037
+441,Lost Nation,cdp,41.9120,-89.3685
+442,Gilman,city,40.7604,-88.0012
+443,Chenoa,city,40.7376,-88.7278
+444,Port Byron,village,41.6243,-90.3302
+445,Ina,village,38.1499,-88.9040
+446,Le Roy,city,40.3394,-88.7611
+447,Forest Park,village,41.8684,-87.8157
+448,Minonk,city,40.9104,-89.0382
+449,Bellwood,village,41.8829,-87.8762
+450,Farmer City,city,40.2481,-88.6418
+451,River Grove,village,41.9243,-87.8379
+452,Thornton,village,41.5741,-87.6193
+453,Dallas City,city,40.6353,-91.1643
+454,Worth,village,41.6882,-87.7926
+455,Knoxville,city,40.9069,-90.2857
+456,Aledo,city,41.1986,-90.7464
+457,Fulton,city,41.8652,-90.1587
+458,Tamms,village,37.2415,-89.2713
+459,Essex,village,41.1831,-88.1924
+460,Gibson City,city,40.4668,-88.3792
+461,Maple Park,village,41.9108,-88.6061
+462,Metamora,village,40.7950,-89.3684
+463,Chicago Ridge,village,41.7034,-87.7795
+464,South Jacksonville,village,39.6994,-90.2240
+465,Plattville,village,41.5343,-88.3836
+466,Adams,cdp,39.8709,-91.1998
+467,La Grange Park,village,41.8308,-87.8723
+468,Bellevue,village,40.6876,-89.6732
+469,Thomson,village,41.9747,-90.1122
+470,Lyons,village,41.8122,-87.8186
+471,Virgil,village,41.9557,-88.5290
+472,North City,village,37.9912,-89.0639
+473,Lawrenceville,city,38.7263,-87.6873
+474,South Roxana,village,38.8106,-90.0599
+475,El Paso,city,40.7405,-89.0182
+476,Annawan,town,41.3964,-89.8906
+477,Albion,city,38.3766,-88.0576
+478,Alto Pass,village,37.5737,-89.3195
+479,Hardin,village,39.1590,-90.6231
+480,Grayville,city,38.2551,-87.9969
+481,Sheridan,village,41.5295,-88.6807
+482,Lake Summerset,cdp,42.4540,-89.3901
+483,Summit,village,41.7885,-87.8139
+484,Bushnell,city,40.5516,-90.5047
+485,Lisbon,village,41.4806,-88.4559
+486,Johnston City,city,37.8210,-88.9293
+487,New Athens,village,38.3189,-89.8736
+488,West Peoria,city,40.6970,-89.6399
+489,Harrison,cdp,37.7976,-89.3360
+490,Carbon Cliff,village,41.4981,-90.3917
+491,Newton,city,38.9872,-88.1644
+492,St. Joseph,village,40.1147,-88.0356
+493,Dix,village,38.4445,-88.9460
+494,Round Lake Park,village,42.3407,-88.0812
+495,Pittsburg,village,37.7766,-88.8502
+496,Tolono,village,39.9913,-88.2625
+497,Moweaqua,village,39.6258,-89.0214
+498,Lexington,city,40.6470,-88.7841
+499,Teutopolis,village,39.1320,-88.4796
+500,Ford Heights,village,41.5113,-87.5812
+501,Thompsonville,village,37.9113,-88.7650
+502,Bannockburn,village,42.1922,-87.8698
+503,Okawville,village,38.4344,-89.5480
+504,Arcola,city,39.6836,-88.3009
+505,Martinsville,city,39.3384,-87.8809
+506,Peotone,village,41.3307,-87.7963
+507,Mount Carroll,city,42.0948,-89.9769
+508,Lewistown,city,40.3969,-90.1555
+509,Cambridge,village,41.2924,-90.1909
+510,Riverside,village,41.8310,-87.8159
+511,Raleigh,village,37.8244,-88.5312
+512,Sleepy Hollow,village,42.0903,-88.3137
+513,Curran,village,39.7420,-89.7784
+514,Ferris,village,40.4695,-91.1683
+515,East Cape Girardeau,village,37.2940,-89.4802
+516,Hebron,village,42.4654,-88.4344
+517,Galatia,village,37.8420,-88.6165
+518,Rosiclare,city,37.4256,-88.3523
+519,Winnebago,village,42.2671,-89.2340
+520,Oregon,city,42.0127,-89.3358
+521,Stickney,village,41.8170,-87.7737
+522,Rome,cdp,40.8774,-89.5132
+523,Brighton,village,39.0409,-90.1400
+524,Menominee,village,42.4747,-90.5429
+525,Elmwood Park,village,41.9225,-87.8163
+526,Atkinson,town,41.4132,-90.0053
+527,Carrollton,city,39.2945,-90.4069
+528,Diamond,village,41.2852,-88.2507
+529,Broughton,village,37.9339,-88.4624
+530,Virden,city,39.5061,-89.7711
+531,Trenton,city,38.6083,-89.6852
+532,Aroma Park,village,41.0818,-87.8044
+533,Stockton,village,42.3525,-90.0020
+534,Elkhart,village,40.0123,-89.4761
+535,Plum Valley,cdp,41.4611,-87.5442
+536,Batchtown,village,39.0332,-90.6534
+537,Burnham,village,41.6395,-87.5450
+538,Sammons Point,village,41.0324,-87.8583
+539,Candlewick Lake,cdp,42.3511,-88.8704
+540,Venice,city,38.6720,-90.1693
+541,Hainesville,village,42.3362,-88.0734
+542,Millbrook,village,41.6071,-88.5454
+543,Fairbury,city,40.7462,-88.5156
+544,Dayton,cdp,41.3915,-88.7992
+545,Hull,village,39.7108,-91.2008
+546,New Baden,village,38.5368,-89.7072
+547,Herscher,village,41.0493,-88.1005
+548,Harristown,village,39.8429,-89.0611
+549,Clarendon Hills,village,41.7984,-87.9572
+550,West Union,cdp,39.2137,-87.6666
+551,Norridge,village,41.9637,-87.8232
+552,Lake Petersburg,cdp,39.9843,-89.8562
+553,Karnak,village,37.2942,-88.9761
+554,Channel Lake,cdp,42.4827,-88.1471
+555,Henry,city,41.1174,-89.3573
+556,Rosemont,village,41.9890,-87.8717
+557,Clay City,village,38.6858,-88.3486
+558,Broadview,village,41.8584,-87.8562
+559,Venetian Village,cdp,42.4061,-88.0455
+560,Maroa,city,40.0365,-88.9562
+561,Greenup,village,39.2479,-88.1600
+562,Germantown Hills,village,40.7690,-89.4630
+563,Timberlane,village,42.3357,-88.8661
+564,Thebes,village,37.2124,-89.4507
+565,Lake Camelot,cdp,40.6351,-89.7530
+566,Wayne City,village,38.3476,-88.5894
+567,Coyne Center,cdp,41.4006,-90.5627
+568,Greenfield,city,39.3445,-90.2082
+569,Fox River Grove,village,42.1955,-88.2148
+570,Media,village,40.7694,-90.8327
+571,Princeville,village,40.9348,-89.7547
+572,Athens,city,39.9619,-89.7216
+573,Goodfield,village,40.6306,-89.2581
+574,Lake of the Woods,cdp,40.2052,-88.3746
+575,Westville,village,40.0440,-87.6389
+576,Onarga,village,40.7153,-88.0108
+577,Rosewood Heights,cdp,38.8878,-90.0732
+578,Crainville,village,37.7538,-89.0591
+579,Rushville,city,40.1200,-90.5665
+580,North Riverside,village,41.8461,-87.8263
+581,Lacon,city,41.0229,-89.4063
+582,Rapids City,village,41.5786,-90.3398
+583,Christopher,city,37.9710,-89.0530
+584,Georgetown,city,39.9774,-87.6354
+585,West City,village,37.9960,-88.9489
+586,Bureau Junction,village,41.2894,-89.3645
+587,Aviston,village,38.6260,-89.6134
+588,Bluford,village,38.3261,-88.7348
+589,Holiday Shores,cdp,38.9271,-89.9389
+590,Oakdale,village,38.2648,-89.5035
+591,South Chicago Heights,village,41.4834,-87.6372
+592,Momence,city,41.1636,-87.6635
+593,Seaton,village,41.1023,-90.7991
+594,Rock Island Arsenal,cdp,41.5170,-90.5397
+595,Petersburg,city,40.0143,-89.8453
+596,Mount Morris,village,42.0483,-89.4293
+597,West Salem,village,38.5201,-88.0093
+598,Taylor Ridge,cdp,41.3892,-90.6705
+599,Williamsville,village,39.9561,-89.5436
+600,Mount Clare,village,39.0973,-89.8337

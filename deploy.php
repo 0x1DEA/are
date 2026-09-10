@@ -1,19 +1,102 @@
 <?php
+
 namespace Deployer;
 
-require 'recipe/laravel.php';
+import('recipe/laravel.php');
+import('contrib/rsync.php');
+import('contrib/crontab.php');
 
-// Config
+set('application', getenv('CI_PROJECT_NAME'));
+set('ssh_multiplexing', true);
 
-set('repository', '');
+set('rsync_src', function () {
+    return __DIR__;
+});
 
-add('shared_files', []);
-add('shared_dirs', []);
-add('writable_dirs', []);
+host('production')
+    ->setHostname(getenv('CI_HOST_PRODUCTION'))
+    ->setRemoteUser('deployer')
+    ->setPort(getenv('CI_SSH_PORT'))
+    ->setDeployPath('/var/www/are')
+    ->set('branch', 'main')
+    ->setLabels(['stage' => 'production']);
 
-// Hosts
+host('staging')
+    ->setHostname(getenv('CI_HOST_STAGING'))
+    ->setRemoteUser('deployer')
+    ->setPort(getenv('CI_SSH_PORT_PRODUCTION'))
+    ->setDeployPath('/var/www/are-staging')
+    ->set('branch', 'develop')
+    ->setLabels(['stage' => 'staging']);
 
+add('rsync', [
+    'exclude' => [
+        '.git',
+        '/.env',
+        '/storage/',
+        '/vendor/',
+        '/node_modules/',
+        '.github',
+        'deploy.php',
+    ],
+]);
 
-// Hooks
+// Tasks
+task('deploy:secrets', function () {
+    file_put_contents(__DIR__.'/.env', getenv('DOT_ENV'));
+    upload('.env', get('deploy_path').'/shared');
+});
+
+task('fix:folders', function () {
+    run('mkdir -p {{deploy_path}}/shared/storage/framework '.
+        '{{deploy_path}}/shared/storage/framework/cache '.
+        '{{deploy_path}}/shared/storage/framework/sessions '.
+        '{{deploy_path}}/shared/storage/framework/views '.
+        '{{deploy_path}}/shared/storage/clockwork');
+});
+
+set('writable_dirs', ['{{deploy_path}}/shared/storage/framework']);
+
+desc('Update disposable email list');
+task('artisan:disposable:update', artisan('disposable:update'));
+
+desc('Update Cloudflare IP list');
+task('artisan:cloudflare:reload', artisan('cloudflare:reload'));
 
 after('deploy:failed', 'deploy:unlock');
+
+desc('Deploy the application');
+task('launch', [
+    'deploy:info',
+    'deploy:setup',
+    'deploy:lock',
+    'deploy:release',
+    'fix:folders',
+    'rsync',
+    'deploy:secrets',
+    'deploy:shared',
+    'deploy:writable',
+    'deploy:vendors',
+
+    // Begin Laravel Stuff
+    'artisan:storage:link',
+    'artisan:view:cache',
+    'artisan:config:cache',
+    'artisan:route:cache',
+    'artisan:optimize',
+    'artisan:migrate',
+    'artisan:disposable:update',
+    'artisan:cloudflare:reload',
+    // End Laravel Stuff
+
+    'deploy:symlink',
+    'deploy:unlock',
+    'deploy:cleanup',
+    'deploy:success',
+]);
+
+after('deploy:success', 'crontab:sync');
+add('crontab:jobs', [
+    '* * * * * cd {{deploy_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
+]);
+set('crontab:identifier', 'are-'.currentHost()->getLabels()['staging']);

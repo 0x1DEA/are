@@ -1,12 +1,15 @@
 <?php
 
 use App\Models\Listing;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'agents' => \App\Models\Agent::all(),
+        'agents' => \App\Models\Agent::query()
+            ->where('is_active', true)
+            ->get(),
     ]);
 })->name('home');
 
@@ -17,6 +20,10 @@ Route::get('/listing/{listing:mls_id}', function (Listing $listing) {
 })->name('listing.show');
 
 
-Route::get('/search', function () {
-    return Inertia::render('Search');
+Route::get('/search', function (Request $request) {
+    return Inertia::render('Search', [
+        'lat' => $request->float('lat', 41.85),
+        'lng' => $request->float('lng', -87.99),
+        'zoom' => $request->float('zoom', 11),
+    ]);
 })->name('search');

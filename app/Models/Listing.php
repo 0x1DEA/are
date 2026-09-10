@@ -16,7 +16,9 @@ class Listing extends Model
     protected $casts = [
         'coordinates' => Point::class,
         'geo_fetched_at' => 'datetime',
-        'data' => 'array',
+        'mls_fetched_at' => 'datetime',
+        'listed_at' => 'datetime',
+        'mls_data' => 'array',
     ];
 
     protected $guarded = [];
