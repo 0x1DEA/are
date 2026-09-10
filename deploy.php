@@ -14,17 +14,17 @@ set('rsync_src', function () {
 });
 
 host('production')
-    ->setHostname(getenv('CI_HOST_PRODUCTION'))
+    ->setHostname(getenv('CI_HOST'))
     ->setRemoteUser('deployer')
-    ->setPort(getenv('CI_SSH_PORT_PRODUCTION'))
+    ->setPort(getenv('CI_SSH_PORT'))
     ->setDeployPath('/var/www/are')
     ->set('branch', 'main')
     ->setLabels(['env' => 'production']);
 
 host('staging')
-    ->setHostname(getenv('CI_HOST_STAGING'))
+    ->setHostname(getenv('CI_HOST'))
     ->setRemoteUser('deployer')
-    ->setPort(getenv('CI_SSH_PORT_STAGING'))
+    ->setPort(getenv('CI_SSH_PORT'))
     ->setDeployPath('/var/www/are-staging')
     ->set('branch', 'develop')
     ->setLabels(['env' => 'staging']);

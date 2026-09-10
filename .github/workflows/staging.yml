@@ -2,8 +2,9 @@ name: CI-CD Staging
 
 on:
   push:
-    branches:
-      - develop
+    branches: [develop]
+
+concurrency: staging_environment
 
 jobs:
   build:
@@ -75,17 +76,19 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: 8.5
+          php-version: '8.5'
           extensions: mbstring, bcmath, dom, libxml, imagick, zlib
 
       - name: Composer install
         run: composer install
 
       - name: Setup Deployer
-        uses: atymic/deployer-php-action@master
+        uses: deployphp/action@v1
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          dep: deploy
+          verbosity: '-vvv'
 
       - name: Deploy to Staging
         env:
