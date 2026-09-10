@@ -87,7 +87,7 @@ jobs:
         with:
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-          dep: deploy
+          dep: 'deploy env=staging'
           verbosity: '-vvv'
 
       - name: Deploy to Staging
