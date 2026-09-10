@@ -29,7 +29,7 @@ jobs:
       - name: Build
         run: |
           pnpm install
-          pnpm build
+          pnpm build:ssr
 
       - name: Tar build files
         run: tar -czvf assets.tar.gz public/build/
@@ -40,11 +40,14 @@ jobs:
           name: assets
           path: assets.tar.gz
 
+      - name: Tar SSR build files
+        run: tar -czvf ssr.tar.gz bootstrap/ssr/
+
       - name: Upload SSR file
         uses: actions/upload-artifact@v4
         with:
           name: ssr
-          path: bootstrap/ssr/ssr.mjs
+          path: ssr.tar.gz
   deploy:
     name: Deploy to Production
     runs-on: ubuntu-latest
@@ -61,11 +64,14 @@ jobs:
       - name: Extract build files
         run: tar -xzvf public/assets.tar.gz
 
-      - name: Download SSR file
+      - name: Download SSR files
         uses: actions/download-artifact@v4
         with:
           name: ssr
           path: boostrap/ssr
+
+      - name: Extract build files
+        run: tar -xzvf bootstrap/ssr.tar.gz
 
       - name: Setup PHP
         uses: shivammathur/setup-php@master
