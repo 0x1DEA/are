@@ -13,6 +13,10 @@ export const $$ = {
     social_instagram: 'https://www.instagram.com/americarealestateinc/',
 };
 
+export function routeIsURL(url = '') {
+    return window.location.pathname === url;
+}
+
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }

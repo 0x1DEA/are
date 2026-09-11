@@ -15,6 +15,18 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+Route::get('/agents', function () {
+    return Inertia::render('Agents', [
+        'agents' => Agent::query()
+            ->where('is_active', true)
+            ->get(),
+    ]);
+})->name('agents');
+
+Route::get('/contact', function () {
+    return Inertia::render('Contact');
+})->name('contact');
+
 Route::get('/listing/{listing:mls_id}', function (Listing $listing) {
     return Inertia::render('Listings/Show', [
         'listing' => $listing,

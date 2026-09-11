@@ -3,13 +3,13 @@ import SocialIcons from '@/components/SocialIcons.vue';
 import { $$ } from '@/lib/utils.ts';
 </script>
 <template>
-    <footer class="flex flex-col gap-4 px-16 py-4 text-white" style="background: #124039">
-        <div class="flex items-center justify-between px-8">
+    <footer class="flex flex-col gap-4 px-8 py-4 text-white" style="background: #124039">
+        <div class="flex flex-col md:flex-row items-center justify-between px-4">
             <div class="flex max-w-2xl items-center gap-4">
                 <img src="./../../assets/are_logo_full.svg" alt="" class="h-32 p-2" />
                 <!--                    <p>America Real Estate has been providing excellent real estate services since 1998</p>-->
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col items-center md:items-end">
                 <a :href="`tel:${$$.tel}`">{{ $$.tel_s }}</a>
                 <a :href="`mailto:${$$.email}`">{{ $$.email }}</a>
                 <span>{{ $$.addr }}</span>

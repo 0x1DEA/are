@@ -338,7 +338,7 @@ const setSorting = (field, dir) => {
             </div>
         </div>
         <div class="flex grow">
-            <div class="flex w-1/3 flex-col">
+            <div class="flex grow md:grow-0 md:w-1/3 flex-col">
                 <div class="flex items-end justify-between border-b border-neutral-200 px-4 pb-3 pt-2">
                     <div>
                         <h1 class="text-lg font-bold">Properties For Sale</h1>
@@ -458,7 +458,7 @@ const setSorting = (field, dir) => {
                     </div>
                 </div>
             </div>
-            <div class="relative grow overflow-hidden bg-neutral-300">
+            <div class="hidden md:block relative grow overflow-hidden bg-neutral-300">
                 <div class="absolute inset-0 z-0" id="map"></div>
                 <div
                     v-if="popupListing"

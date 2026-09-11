@@ -49,7 +49,7 @@ const monthly = computed(() => {
                 <div class="h-64 w-1/2"></div>
                 <div class="w-1/2"></div>
             </div>
-            <div class="grid grid-cols-3 gap-8">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-8 p-4 md:p-0">
                 <div class="flex flex-col gap-2 col-span-2">
                     <span>Listed by brokerage by listing agent</span>
                     <span class="text-4xl font-bold">{{ fmtPrice(listing) }}</span>
@@ -67,7 +67,7 @@ const monthly = computed(() => {
                     <span>Add other info like schools and providers and shit</span>
 
                     <h2 v-if="listing.sale_price" class="font-bold border-b-2 mt-4">Mortgage</h2>
-                    <div v-if="listing.sale_price" class="grid grid-cols-2 rounded-lg gap-4 p-4 bg-neutral-100">
+                    <div v-if="listing.sale_price" class="grid md:grid-cols-2 rounded-lg gap-4 p-4 bg-neutral-100">
                         <div class="flex flex-col gap-2">
                             <div>
                                 <span>Home price</span>
@@ -125,7 +125,7 @@ const monthly = computed(() => {
 
                     <span>Table of MLS data here</span>
                 </div>
-                <div class="relative">
+                <div class="relative col-span-2 md:col-span-1">
                     <div class="flex flex-col gap-1 sticky top-2 rounded-lg bg-neutral-100 shadow-lg border border-neutral-200 p-4">
                         <div class="aspect-square bg-neutral-300"></div>
                         <h1 class="text-2xl font-bold">Sonia Anaya</h1>
@@ -134,23 +134,25 @@ const monthly = computed(() => {
                     </div>
                 </div>
             </div>
-            <div class="flex flex-wrap gap-8 items-center">
-                <img alt="" class="h-20" src="../../../assets/equal_housing.png"/>
-                <img alt="" class="h-20 invert" src="../../../assets/realtor_logo.png"/>
-                <img alt="" src="../../../assets/mred_listing.png"/>
+            <div class="flex flex-col gap-4 p-4 md:p-0">
+                <div class="flex justify-center flex-wrap gap-8 items-center">
+                    <img alt="" class="h-20" src="../../../assets/equal_housing.png"/>
+                    <img alt="" class="h-20 invert" src="../../../assets/realtor_logo.png"/>
+                    <img alt="" src="../../../assets/mred_listing.png"/>
+                </div>
+                <p>Listings courtesy of MRED as distributed by MLS GRID</p>
+                <p  class="text-neutral-500">Based on information submitted to the MLS GRID as of {{ new Date(listing.updated_at).toLocaleString() }}. All data is obtained from various sources and may not have been verified by broker or
+                    MLS GRID. Supplied Open House Information is subject to change without notice. All information
+                    should be independently reviewed and verified for accuracy. Properties may or may not be listed by
+                    the office/agent presenting the information</p>
+                <p class="text-neutral-500">The Digital Millennium Copyright Act of 1998, 17 U.S.C. § 512 (the “DMCA”) provides recourse for
+                    copyright owners who believe that material appearing on the Internet infringes their rights under
+                    U.S. copyright law. If you believe in good faith that any content or material made available in
+                    connection with our website or services infringes your copyright, you (or your agent) may send us a
+                    notice requesting that the content or material be removed, or access to it blocked. Notices must be
+                    sent in writing by email to: info@americarealestateinc.com</p>
+                <p class="text-neutral-500">Website managed by America Real Estate Inc. IDFPR 478009186</p>
             </div>
-            <p>Listings courtesy of MRED as distributed by MLS GRID</p>
-            <p  class="text-neutral-500">Based on information submitted to the MLS GRID as of {{ new Date(listing.updated_at).toLocaleString() }}. All data is obtained from various sources and may not have been verified by broker or
-MLS GRID. Supplied Open House Information is subject to change without notice. All information
-should be independently reviewed and verified for accuracy. Properties may or may not be listed by
-the office/agent presenting the information</p>
-            <p class="text-neutral-500">The Digital Millennium Copyright Act of 1998, 17 U.S.C. § 512 (the “DMCA”) provides recourse for
-                copyright owners who believe that material appearing on the Internet infringes their rights under
-                U.S. copyright law. If you believe in good faith that any content or material made available in
-                connection with our website or services infringes your copyright, you (or your agent) may send us a
-                notice requesting that the content or material be removed, or access to it blocked. Notices must be
-                sent in writing by email to: info@americarealestateinc.com</p>
-            <p class="text-neutral-500">Website managed by America Real Estate Inc. IDFPR 478009186</p>
         </div>
         <Footer class="w-full"/>
     </div>

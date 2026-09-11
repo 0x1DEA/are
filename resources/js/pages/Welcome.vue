@@ -7,7 +7,8 @@ import AgentCard from '@/components/AgentCard.vue';
 import cities_csv from '~/assets/cities.csv?raw';
 import { computed, onBeforeMount, ref, useTemplateRef } from 'vue';
 import Footer from '@/components/Footer.vue';
-import { $$ } from '@/lib/utils.ts';
+import { $$, routeIsURL } from '@/lib/utils.ts';
+import MobileNav from '@/components/MobileNav.vue';
 
 const cities = ref([]);
 
@@ -79,28 +80,28 @@ const contacted = ref(false);
             <div class="z-10">
                 <img src="./../../assets/are_logo_full.svg" alt="" class="h-32 p-4" />
             </div>
-            <div
-                class="flex flex-col z-10"
-                style="
-                    text-shadow:
-                        0 0 5px black,
-                        0 0 3px black;
-                "
-            >
-                <div class="flex items-center gap-2 px-2 py-1">
+            <div class="flex flex-col z-10">
+                <div class="hidden md:flex items-center justify-end gap-2 px-2 py-1" style="text-shadow:0 0 5px black,0 0 3px black;">
                     <SocialIcons />
                     <a :href="`tel:${$$.tel}`" class="text-xl font-bold">{{ $$.tel_s }}</a>
                 </div>
-                <nav class="flex justify-end space-x-2 text-xl font-bold">
+                <nav class="hidden md:flex justify-end space-x-2 text-xl font-bold" style="
+                    text-shadow:
+                        0 0 5px black,
+                        0 0 3px black;
+                ">
+                    <Link href="/home" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Home</Link>
                     <Link href="/search" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Search</Link>
-                    <a href="#contact" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Contact</a>
+                    <Link href="/agents" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Agents</Link>
+                    <Link href="/contact" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Contact</Link>
                 </nav>
+                <MobileNav class="p-8"/>
             </div>
         </header>
         <main class="grow">
             <div :style="`background: url('${chicago_bg}')`" class="flex flex-col justify-center bg-cover text-white">
-                <div class="flex h-screen relative flex-col items-center justify-center gap-4 bg-black/50">
-                    <h1 class="text-6xl font-bold">American Real Estate</h1>
+                <div class="flex h-screen relative flex-col items-center text-center justify-center gap-4 bg-black/50">
+                    <h1 class="text-6xl font-bold">America Real&nbsp;Estate</h1>
                     <h2 class="text-2xl">Find your home sweet home</h2>
                     <label
                         class="flex items-center gap-4 rounded-full border border-white/25 bg-black/25 px-4 py-4 backdrop-blur"
@@ -140,7 +141,7 @@ const contacted = ref(false);
                 </div>
             </div>
             <div ref="agents" class="flex flex-col items-center px-16 gap-8 py-8">
-                <h1 class="text-6xl font-bold">Our Agents</h1>
+                <h1 class="text-6xl font-bold text-center">Our Agents</h1>
                 <div class="flex flex-wrap justify-center gap-8">
                     <AgentCard v-for="agent in agents" :key="agent.id" :agent="agent" class="w-1/4"/>
                 </div>
@@ -186,14 +187,13 @@ const contacted = ref(false);
                     </div>
                 </div>
             </div>
-            <div></div>
             <div
                 id="contact"
                 :style="`background-image: url('${office_bg}')`"
-                class="flex flex-col justify-center bg-cover px-16 py-48 text-white"
+                class="flex flex-col justify-center bg-cover px-4 md:px-16 py-4 md:py-48 text-white"
             >
-                <div class="flex justify-between gap-8">
-                    <div class="w-1/2 rounded-lg bg-black/50 p-4 backdrop-blur">
+                <div class="flex flex-col md:flex-row justify-between gap-4 md:gap-8">
+                    <div class="md:w-1/2 rounded-lg bg-black/50 p-4 backdrop-blur">
                         <h1 class="text-4xl font-bold">America Real Estate</h1>
                         <p>Your destination for real estate in the greater Chicago area</p>
                         <h1 class="text-2xl font-bold">Hours</h1>
@@ -201,7 +201,7 @@ const contacted = ref(false);
                         <h1 class="text-2xl font-bold">Phone</h1>
                         <a :href="`tel:${$$.tel}`">{{$$.tel_s}}</a>
                     </div>
-                    <div class="flex w-1/2 flex-col gap-4 rounded-lg bg-black/50 p-4 backdrop-blur">
+                    <div class="flex md:w-1/2 flex-col gap-4 rounded-lg bg-black/50 p-4 backdrop-blur">
                         <h2 class="text-4xl font-bold">Contact Us</h2>
                         <p v-if="contacted">Thank you for reaching out! We'll get back to you shortly!</p>
                         <div v-else class="flex flex-col gap-4">
@@ -232,3 +232,6 @@ const contacted = ref(false);
         <Footer/>
     </div>
 </template>
+<style>
+
+</style>

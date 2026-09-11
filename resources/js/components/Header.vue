@@ -2,6 +2,14 @@
 import SocialIcons from '@/components/SocialIcons.vue';
 import { Link } from '@inertiajs/vue3';
 import { $$ } from '@/lib/utils.ts';
+import MobileNav from '@/components/MobileNav.vue';
+import { onMounted, ref } from 'vue';
+
+const title = ref('');
+
+onMounted(() => {
+    title.value = document.title.replace(/- ARE.*/g, '');
+});
 </script>
 <template>
     <header>
@@ -11,13 +19,13 @@ import { $$ } from '@/lib/utils.ts';
                     <img src="./../../assets/are_logo_full.svg" alt="" class="h-24 p-3" />
                 </Link>
                 <div class="flex flex-col items-end gap-2">
-                    <nav class="flex gap-2">
+                    <nav class="hidden gap-2 md:flex">
                         <Link href="/" class="px-4 py-2 text-xl font-bold">Home</Link>
                         <Link href="/search" class="px-4 py-2 text-xl font-bold">Search</Link>
-                        <Link href="/search" class="px-4 py-2 text-xl font-bold">Agents</Link>
-                        <Link href="/search" class="px-4 py-2 text-xl font-bold">Contact</Link>
-                        <Link href="/search" class="px-4 py-2 text-xl font-bold">About</Link>
+                        <Link href="/agents" class="px-4 py-2 text-xl font-bold">Agents</Link>
+                        <Link href="/contact" class="px-4 py-2 text-xl font-bold">Contact</Link>
                     </nav>
+                    <MobileNav />
                 </div>
             </div>
         </div>
@@ -31,9 +39,9 @@ import { $$ } from '@/lib/utils.ts';
                         clip-rule="evenodd"
                     />
                 </svg>
-                <span>Search</span>
+                <span>{{ title }}</span>
             </div>
-            <div class="flex gap-4">
+            <div class="hidden gap-4 md:flex">
                 <SocialIcons />
                 <a :href="`tel:${$$.tel}`" class="font-bold">{{ $$.tel_s }}</a>
             </div>
