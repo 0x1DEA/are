@@ -17,13 +17,15 @@ use MatanYadaev\EloquentSpatial\Objects\Polygon;
 Route::get('/mlsgrid:test', function (Request $request) {
     $api = 'https://api-demo.mlsgrid.com/v2/';
 
+    $count = Listing::count();
+
     $odata = 'OriginatingSystemName eq \'mred\' and MlgCanView eq true and StandardStatus eq \'Active\'';
 
     $query = Uri::of($api.'Property')->withQuery([
         '$filter' => $odata,
         '$expand' => 'Media,Rooms,UnitTypes',
-        //        '$skip' => 5000,
-//        '$top' => 10,
+        '$skip' => $count,
+        '$top' => 50,
     ]);
 
     $res = Http::withHeaders([
