@@ -64,7 +64,7 @@ const monthly = computed(() => {
                     <span class="text-2xl font-bold">{{ listingAddress(listing) }}</span>
 
                     <Leaflet :lat="listing.coordinates.coordinates[0]" :lng="listing.coordinates.coordinates[1]" :zoom="16" class="w-full aspect-square rounded-lg"/>
-                    <span>Add other info like schools and providers and shit</span>
+                    <span v-if="0">misc/schools/providers</span>
 
                     <h2 v-if="listing.sale_price" class="font-bold border-b-2 mt-4">Mortgage</h2>
                     <div v-if="listing.sale_price" class="grid md:grid-cols-2 rounded-lg gap-4 p-4 bg-neutral-100">
@@ -123,7 +123,7 @@ const monthly = computed(() => {
                         </div>
                     </div>
 
-                    <span>Table of MLS data here</span>
+                    <span v-if="0">Table of MLS data here</span>
                 </div>
                 <div class="relative col-span-2 md:col-span-1">
                     <div class="flex flex-col gap-1 sticky top-2 rounded-lg bg-neutral-100 shadow-lg border border-neutral-200 p-4">
