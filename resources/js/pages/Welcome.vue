@@ -143,7 +143,7 @@ const contacted = ref(false);
             <div ref="agents" class="flex flex-col items-center px-16 gap-8 py-8">
                 <h1 class="text-6xl font-bold text-center">Our Agents</h1>
                 <div class="flex flex-wrap justify-center gap-8">
-                    <AgentCard v-for="agent in agents" :key="agent.id" :agent="agent" class="w-1/4"/>
+                    <AgentCard v-for="agent in agents" :key="agent.id" :agent="agent" class="md:w-1/4"/>
                 </div>
             </div>
             <div v-if="0" class="flex flex-col gap-8 px-48 py-16">
