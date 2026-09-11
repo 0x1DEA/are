@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('listing_media', function (Blueprint $table) {
             $table->id();
 
-            $table->string('key');
+            $table->string('key')->unique();
             $table->string('mls_listing_id');
             $table->string('source_url');
             $table->string('url')->nullable();

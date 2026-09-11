@@ -23,7 +23,7 @@ Route::get('/mlsgrid:test', function (Request $request) {
         '$filter' => $odata,
         '$expand' => 'Media,Rooms,UnitTypes',
         //        '$skip' => 5000,
-        '$top' => 50,
+//        '$top' => 10,
     ]);
 
     $res = Http::withHeaders([

@@ -20,7 +20,7 @@ class DownloadListingMedia implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public array $listings)
+    public function __construct(public array $listings = [])
     {
         //
     }
@@ -32,7 +32,8 @@ class DownloadListingMedia implements ShouldQueue
     {
         $media = ListingMedia::query()
             ->whereNull('downloaded_at')
-            ->limit(10)
+//            ->limit(10)
+            ->whereIn('mls_listing_id', $this->listings)
             ->get()
             ->keyBy('key');
 
@@ -61,13 +62,22 @@ class DownloadListingMedia implements ShouldQueue
             })->progress(function (Batch $batch, int|string $key, Response $response) use (&$updates, $dir) {
                 $updates[] = [
                     'key' => Str::beforeLast($key, '.'),
-                    'url' => $dir.$key ,
+                    'url' => $dir.$key,
                     'downloaded_at' => now(),
+                    // ignore, upsert defaults, won't be used
+                    'mls_listing_id' => '',
+                    'source_url' => '',
+                    'height' => 0,
+                    'width' => 0,
                 ];
             })->catch(function (Batch $batch, int|string $key, mixed $response) {
                 Log::error('Failed to download media: '.$key);
             })->finally(function () use ($updates) {
-                ListingMedia::upsert($updates, 'key');
+                ListingMedia::upsert($updates, 'key', ['key', 'url', 'downloaded_at']);
             })->concurrency(1)->send();
+
+//        ListingMedia::upsert($updates, 'key', ['key', 'url', 'downloaded_at']);
+
+//        dd($responses, $updates);
     }
 }
