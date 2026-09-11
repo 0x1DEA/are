@@ -3,12 +3,9 @@ import SocialIcons from '@/components/SocialIcons.vue';
 import { Link } from '@inertiajs/vue3';
 import { $$ } from '@/lib/utils.ts';
 import MobileNav from '@/components/MobileNav.vue';
-import { onMounted, ref } from 'vue';
 
-const title = ref('');
-
-onMounted(() => {
-    title.value = document.title.replace(/- ARE.*/g, '');
+const props = defineProps({
+    title: String,
 });
 </script>
 <template>

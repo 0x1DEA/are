@@ -24,7 +24,7 @@ const scrollDown = () => {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
     <div class="text-neutral-1000 relative flex min-h-screen w-full flex-col bg-neutral-100">
-        <Header/>
+        <Header title="Agents"/>
         <main class="grow">
             <div :style="`background: url('${chicago_bg}')`" class="flex flex-col justify-center bg-cover text-white">
                 <div class="flex h-72 relative flex-col items-center text-center justify-center gap-4 bg-black/50">

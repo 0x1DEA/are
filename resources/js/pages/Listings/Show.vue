@@ -37,7 +37,7 @@ const monthly = computed(() => {
 </script>
 <template>
     <div class="flex flex-col items-center">
-        <Header class="w-full"/>
+        <Header class="w-full" title="Listing"/>
         <div class="flex flex-col gap-4 py-8 w-full max-w-6xl">
             <div class="flex gap-1 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
