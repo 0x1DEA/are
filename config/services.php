@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'mlsgrid' => [
+        'key' => env('SERVICE_MLSGRID_KEY'),
+    ],
+
+    'geocodio' => [
+        'key' => env('SERVICE_GEOCODIO_KEY'),
+    ],
 ];

@@ -16,7 +16,8 @@
         "laravel/wayfinder": "^0.1.14",
         "matanyadaev/laravel-eloquent-spatial": "^4.8",
         "monicahq/laravel-cloudflare": "^4.1",
-        "propaganistas/laravel-disposable-email": "^2.5"
+        "propaganistas/laravel-disposable-email": "^2.5",
+        "spatie/guzzle-rate-limiter-middleware": "^2.2"
     },
     "require-dev": {
         "deployer/deployer": "^8.0",

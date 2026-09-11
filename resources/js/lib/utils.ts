@@ -45,12 +45,10 @@ export const listingAddress = (l: any) => {
 };
 
 export const listingThumb = (l: any) => {
-    let url = l.mls_data.Media?.[0]?.MediaURL;
-
-    if (url) {
-        return '/api/proxy/' + url;
+    if (l.thumbnail) {
+        return '/storage/' + l.thumbnail.url;
     } else {
-        return 'https://picsum.photos/300/200';
+        return false;
     }
 };
 

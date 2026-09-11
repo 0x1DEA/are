@@ -76,6 +76,7 @@ task('deploy', [
     'artisan:route:cache',
     'artisan:optimize',
     'artisan:migrate',
+    'artisan:queue:restart',
     'artisan:disposable:update',
     'artisan:cloudflare:reload',
     // End Laravel Stuff

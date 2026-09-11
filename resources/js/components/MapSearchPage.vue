@@ -401,6 +401,7 @@ const setSorting = (field, dir) => {
                                     class="absolute inset-0 overflow-hidden rounded-lg"
                                 >
                                     <img
+                                        v-if="listingThumb(p)"
                                         alt=""
                                         class="absolute inset-0 object-cover"
                                         loading="lazy"

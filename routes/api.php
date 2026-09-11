@@ -1,6 +1,10 @@
 <?php
 
+use App\Jobs\DownloadListingMedia;
+use App\Jobs\GeocodeListings;
 use App\Models\Listing;
+use App\Models\ListingMedia;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -9,10 +13,6 @@ use Illuminate\Support\Uri;
 use MatanYadaev\EloquentSpatial\Enums\Srid;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use MatanYadaev\EloquentSpatial\Objects\Polygon;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
 Route::get('/mlsgrid:test', function (Request $request) {
     $api = 'https://api-demo.mlsgrid.com/v2/';
@@ -23,17 +23,20 @@ Route::get('/mlsgrid:test', function (Request $request) {
         '$filter' => $odata,
         '$expand' => 'Media,Rooms,UnitTypes',
         //        '$skip' => 5000,
-        //        '$top' => 100,
+        '$top' => 50,
     ]);
 
     $res = Http::withHeaders([
         'Accept-Encoding' => 'gzip',
-        'Authorization' => 'Bearer '.'568376abdeb35cc5754977885074d3cea4ebe60d',
+        'Authorization' => 'Bearer '.config('services.mlsgrid.key'),
     ])->get($query->toString())->json('value');
 
     $listings = [];
+    $listing_ids = [];
+    $media = [];
 
     for ($i = 0; $i < count($res); $i++) {
+        $listing_ids[] = $res[$i]['ListingId'];
         $listings[] = [
             'listing_agent_mls_id' => $res[$i]['ListAgentMlsId'],
             'mls_id' => $res[$i]['ListingId'],
@@ -74,80 +77,35 @@ Route::get('/mlsgrid:test', function (Request $request) {
             'mls_data' => json_encode($res[$i]),
             'mls_fetched_at' => now(),
 
-            'listed_at' => \Carbon\Carbon::make($res[$i]['OriginalEntryTimestamp']),
+            'listed_at' => Carbon::make($res[$i]['OriginalEntryTimestamp']),
         ];
+
+        if (array_key_exists('Media', $res[$i])) {
+            for ($j = 0; $j < count($res[$i]['Media']); $j++) {
+                $m = $res[$i]['Media'][$j];
+
+                $media[] = [
+                    'key' => $m['MediaKey'],
+                    'mls_listing_id' => $m['ResourceRecordID'],
+                    'source_url' => $m['MediaURL'],
+
+                    'type' => $m['MediaObjectID'] ?? null,
+                    'order' => $m['Order'] ?? null,
+
+                    'width' => $m['ImageWidth'],
+                    'height' => $m['ImageHeight'],
+
+                    'mls_modified_at' => $m['MediaModificationTimestamp'] ? Carbon::make($m['MediaModificationTimestamp']) : null,
+                ];
+            }
+        }
     }
 
     Listing::upsert($listings, 'mls_id');
+    ListingMedia::upsert($media, 'key');
 
-    return 1;
-});
-
-Route::get('/geocodio:test', function (Request $request) {
-    $geocoder = new Geocodio\Geocodio;
-    $geocoder->setApiKey('8c6c08586f26baa5822f6cc8cc0a862252fc6a0');
-
-    $listings = Listing::query()
-        ->limit(500)
-        ->whereNull('geo_fetched_at')
-        ->select([
-            'mls_id',
-            'address_number',
-            'address_direction',
-            'address_street',
-            'address_street_suffix',
-            'address_unit',
-            'address_city',
-            'address_state',
-            'address_postal',
-        ])
-        ->get()
-        ->mapWithKeys(function (Listing $l) {
-            $street = implode(' ', array_filter([
-                $l->address_number,
-                $l->address_direction,
-                $l->address_street,
-                $l->address_street_suffix,
-            ], fn ($value) => $value !== null));
-
-            return [
-                $l->mls_id => [
-                    'street' => $street,
-                    'city' => $l->address_city,
-                    'state_province' => $l->address_state,
-                    'postal_code' => $l->address_postal,
-                    'country' => 'USA',
-                ],
-            ];
-        });
-
-    if ($listings->isEmpty()) {
-        return 0;
-    }
-
-    $updates = [];
-
-    $results = $geocoder->geocode($listings->toArray())['results'];
-
-    foreach ($results as $mls_id => $result) {
-        $coordinates = null;
-
-        foreach ($result['response']['results'] as $address) {
-            if ($address['accuracy'] === 1) {
-                //                $coordinates = new Point($address['location']['lat'], $address['location']['lng'], Srid::WGS84->value);
-                $coordinates = DB::raw("ST_GeomFromText('POINT({$address['location']['lat']} {$address['location']['lng']})', 4326)");
-            }
-        }
-
-        $updates[] = [
-            'mls_id' => $mls_id,
-            'coordinates' => $coordinates,
-            'geo_data' => json_encode($result),
-            'geo_fetched_at' => now(),
-        ];
-    }
-
-    Listing::upsert($updates, 'mls_id', ['coordinates', 'geo_data', 'geo_fetched_at']);
+    GeocodeListings::dispatch();
+    DownloadListingMedia::dispatch($listing_ids);
 
     return 1;
 });
@@ -246,30 +204,10 @@ Route::get('search/{coordinates}', function (Request $request, $coordinates) {
     return $q->limit(1000)
         ->where('feed_idx', true)
         ->where('status', 'Active')
+        ->with(['thumbnail'])
         ->get();
 });
 
-Route::get('proxy/{url}', function ($url) {
-    if (! $url || ! filter_var($url, FILTER_VALIDATE_URL)) {
-        return response()->json(['error' => 'Invalid URL'], 400);
-    }
-
-    $response = Http::withHeaders([
-        'Host' => 's3.amazonaws.com',
-        'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Encoding' => 'gzip, deflate, br, zstd',
-        'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36',
-    ])->get($url);
-
-    if ($response->failed()) {
-        return response()->json(['error' => 'Unable to fetch image'], 404);
-    }
-
-    $contentType = $response->header('Content-Type') ?? 'image/jpeg';
-
-    return response($response->body(), 200)->header('Content-Type', $contentType);
-})->where('url', '.*');
-
 Route::get('listing/{listing:mls_id}', function (Listing $listing) {
-    return $listing;
+    return $listing->load(['thumbnail']);
 });
