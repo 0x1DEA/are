@@ -90,7 +90,6 @@ const contacted = ref(false);
                         0 0 5px black,
                         0 0 3px black;
                 ">
-                    <Link href="/" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Home</Link>
                     <Link href="/search" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Search</Link>
                     <Link href="/agents" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Agents</Link>
                     <Link href="/contact" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Contact</Link>
