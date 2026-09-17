@@ -15,7 +15,7 @@ const props = defineProps({
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
     <Header title="Search"/>
-    <MapSearchPage class="h-[calc(100dvh-7.5rem)]" v-bind="props" />
+    <MapSearchPage class="h-[calc(100dvh-10rem)]" v-bind="props" />
     <div class="hidden justify-between gap-2 border-t border-neutral-300 bg-neutral-100 text-sm md:flex">
         <span class="border-r border-neutral-300 px-2 py-0.5 text-neutral-400"
             >America Real Estate Inc. &copy; 2026 &mdash; Listing data courtesy of MRED via MLS GRID</span

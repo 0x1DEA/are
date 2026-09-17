@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use JetBrains\PhpStorm\NoReturn;
 use Spatie\GuzzleRateLimiterMiddleware\RateLimiterMiddleware;
 
 class DownloadListingMedia implements ShouldQueue
@@ -28,14 +29,18 @@ class DownloadListingMedia implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    #[NoReturn]
+    public function handle(bool $eat = false): void
     {
-        $media = ListingMedia::query()
-            ->whereNull('downloaded_at')
-//            ->limit(10)
-            ->whereIn('mls_listing_id', $this->listings)
-            ->get()
-            ->keyBy('key');
+        $media = ListingMedia::query()->whereNull('downloaded_at');
+
+        if ($eat) {
+            $media->whereIn('mls_listing_id', $this->listings);
+        } else {
+            $media->limit(25);
+        }
+
+        $media = $media->get()->keyBy('key');
 
         $updates = [];
 
@@ -50,19 +55,38 @@ class DownloadListingMedia implements ShouldQueue
         $responses = Http::withHeaders([
             'User-Agent' => config('services.mlsgrid.key'),
         ])->withMiddleware(RateLimiterMiddleware::perSecond(1))
-            ->batch(function (Batch $batch) use (&$media, $path) {
-                foreach ($media as $key => $m) {
+            ->batch(function (Batch $batch) use (&$media, $path, $dir, &$updates) {
+                foreach ($media as $m) {
                     parse_str(parse_url($m->source_url, PHP_URL_PATH), $query);
                     $ext = Str::after($query['id'], '.');
 
-                    $batch->as($key.'.'.$ext)
-                        ->sink(storage_path($path.$key.'.'.$ext))
-                        ->get($m->source_url);
+                    // If we already have this file no need to download again, update the DB (early testing fix)
+                    if (Storage::disk('public')->exists($dir.'/'.$m->key.'.'.$ext)) {
+                        $updates[] = [
+                            'id' => $m->id,
+                            'key' => $m->key,
+                            'url' => $dir.'/'.$m->key.'.'.$ext,
+                            'downloaded_at' => now(),
+                            // ignore, upsert defaults, won't be used
+                            'mls_listing_id' => '',
+                            'source_url' => '',
+                            'height' => 0,
+                            'width' => 0,
+                        ];
+                    } else {
+                        // We make the key the $filename for later
+                        $batch->as($m->key.'.'.$ext)
+                            ->sink(storage_path($path.$m->key.'.'.$ext))
+                            ->get($m->source_url);
+                    }
                 }
-            })->progress(function (Batch $batch, int|string $key, Response $response) use (&$updates, $dir) {
+            })->progress(function (Batch $batch, int|string $filename, Response $response) use (&$updates, $dir, $media) {
+                // $key is the full filename (no path)
+                $media_key = Str::beforeLast($filename, '.');
                 $updates[] = [
-                    'key' => Str::beforeLast($key, '.'),
-                    'url' => $dir.$key,
+                    'id' => $media->get($media_key)->id,
+                    'key' => $media_key,
+                    'url' => $dir.'/'.$filename,
                     'downloaded_at' => now(),
                     // ignore, upsert defaults, won't be used
                     'mls_listing_id' => '',
@@ -73,11 +97,9 @@ class DownloadListingMedia implements ShouldQueue
             })->catch(function (Batch $batch, int|string $key, mixed $response) {
                 Log::error('Failed to download media: '.$key);
             })->finally(function () use ($updates) {
-                ListingMedia::upsert($updates, 'key', ['key', 'url', 'downloaded_at']);
+                ListingMedia::upsert($updates, 'id', ['key', 'url', 'downloaded_at']);
             })->concurrency(1)->send();
 
-//        ListingMedia::upsert($updates, 'key', ['key', 'url', 'downloaded_at']);
-
-//        dd($responses, $updates);
+                dd($responses, $updates);
     }
 }

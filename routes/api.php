@@ -14,6 +14,10 @@ use MatanYadaev\EloquentSpatial\Enums\Srid;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use MatanYadaev\EloquentSpatial\Objects\Polygon;
 
+Route::get('/media:test', function (Request $request) {
+    (new DownloadListingMedia)->handle();
+});
+
 Route::get('/mlsgrid:test', function (Request $request) {
     $api = 'https://api-demo.mlsgrid.com/v2/';
 

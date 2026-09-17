@@ -14,7 +14,7 @@ export const $$ = {
 };
 
 export function routeIsURL(url = '') {
-    return window.location.pathname === url;
+    return typeof window === 'undefined' ? null : window.location.pathname === url;
 }
 
 export function cn(...inputs: ClassValue[]) {
