@@ -43,14 +43,14 @@ class Listing extends Model
 
             'living_area_sq_ft' => $item['LivingArea'] ?? null,
 
-            'address_number' => $item['StreetNumber'],
+            'address_number' => $item['StreetNumber'] ?? null,
             'address_direction' => $item['StreetDirPrefix'] ?? null,
-            'address_street' => $item['StreetName'] ?? '',
+            'address_street' => $item['StreetName'] ?? null,
             'address_street_suffix' => $item['StreetSuffix'] ?? null,
             'address_unit' => $item['UnitNumber'] ?? null,
 
-            'address_city' => $item['City'],
-            'address_state' => $item['StateOrProvince'],
+            'address_city' => $item['City'] ?? null,
+            'address_state' => $item['StateOrProvince'] ?? null,
             'address_postal' => $item['PostalCode'] ?? null,
 
             'bedrooms' => $item['BedroomsTotal'] ?? 0,
