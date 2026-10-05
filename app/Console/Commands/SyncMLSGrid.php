@@ -8,9 +8,11 @@ use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Uri;
 
@@ -32,7 +34,8 @@ class SyncMLSGrid extends Command
 
     private const int REFRESH_LISTINGS_PER_RUN = 50;
 
-    private const string API = 'https://api-demo.mlsgrid.com/v2/';
+    private const string API_DEMO = 'https://api-demo.mlsgrid.com/v2/';
+    private const string API = 'https://api.mlsgrid.com/v2/';
 
     private const string LOCK_REPLICATE = 'mls_replicate.lock';
 
@@ -102,7 +105,7 @@ class SyncMLSGrid extends Command
             }
 
             // Follow the next link, if null (first request of run) fill in using our query
-            $url = $next ?? Uri::of(self::API.'Property')->withQuery([
+            $url = $next ?? Uri::of((App::isProduction() ? self::API : self::API_DEMO).'Property')->withQuery([
                 '$filter' => $filter,
                 '$expand' => 'Media,Rooms,UnitTypes',
                 '$skip' => 0,
@@ -118,6 +121,7 @@ class SyncMLSGrid extends Command
             // Other condition use $next being null to indicate first run. we cant do that after this point
             // the loop will exit if this is null after this point
             $next = $res['@odata.nextLink'] ?? null;
+            Log::debug($res);
             $res = $res['value'];
 
             $listings = [];
