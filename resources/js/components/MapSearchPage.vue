@@ -3,14 +3,7 @@ import L from 'leaflet';
 import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import 'leaflet/dist/leaflet.css';
 import { Link } from '@inertiajs/vue3';
-import {
-    fmtPrice,
-    fmtPriceCmp,
-    listingAddress,
-    listingMLSID,
-    listingRooms,
-    listingThumb,
-} from '@/lib/utils.ts';
+import { fmtPrice, fmtPriceCmp, listingAddress, listingMLSID, listingRooms, listingThumb } from '@/lib/utils.ts';
 import cities_csv from '~/assets/cities.csv?raw';
 import MinMax from '@/components/MinMax.vue';
 
@@ -227,66 +220,10 @@ const priceCurve = [
 ];
 
 const priceCurveRent = [
-    0,
-    250,
-    500,
-    600,
-    700,
-    800,
-    900,
-    1_000,
-    1_100,
-    1_200,
-    1_300,
-    1_400,
-    1_500,
-    1_600,
-    1_700,
-    1_800,
-    1_900,
-    2_000,
-    2_100,
-    2_200,
-    2_300,
-    2_400,
-    2_500,
-    2_600,
-    2_700,
-    2_800,
-    2_900,
-    3_000,
-    3_100,
-    3_200,
-    3_300,
-    3_400,
-    3_500,
-    3_600,
-    3_700,
-    3_800,
-    3_900,
-    4_000,
-    4_250,
-    4_500,
-    4_750,
-    5_000,
-    5_250,
-    5_500,
-    5_750,
-    6_000,
-    6_250,
-    6_500,
-    6_750,
-    7_000,
-    7_500,
-    8_000,
-    8_500,
-    9_000,
-    9_500,
-    10_000,
-    12_500,
-    15_000,
-    17_500,
-    20_000,
+    0, 250, 500, 600, 700, 800, 900, 1_000, 1_100, 1_200, 1_300, 1_400, 1_500, 1_600, 1_700, 1_800, 1_900, 2_000, 2_100,
+    2_200, 2_300, 2_400, 2_500, 2_600, 2_700, 2_800, 2_900, 3_000, 3_100, 3_200, 3_300, 3_400, 3_500, 3_600, 3_700,
+    3_800, 3_900, 4_000, 4_250, 4_500, 4_750, 5_000, 5_250, 5_500, 5_750, 6_000, 6_250, 6_500, 6_750, 7_000, 7_500,
+    8_000, 8_500, 9_000, 9_500, 10_000, 12_500, 15_000, 17_500, 20_000,
 ];
 
 const activePriceCurve = computed(() => {
@@ -299,13 +236,17 @@ const setSorting = (field, dir) => {
     searchMap();
 };
 
+const filtersOpen = ref(false);
+const sortingOpen = ref(false);
+const mapOpen = ref(false);
+
 // should match
 
 // TODO: highlight card and dot when either one is hovered to quickly identify each
 </script>
 <template>
     <div class="flex flex-col bg-white">
-        <div class="flex items-center gap-2 bg-neutral-100 p-2">
+        <div class="relative flex flex-wrap items-center gap-2 bg-neutral-100 p-2">
             <div>
                 <label class="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2 py-1">
                     <svg
@@ -327,10 +268,10 @@ const setSorting = (field, dir) => {
                         class="focus-visible:outline-0"
                     />
                 </label>
-                <div class="relative z-10 w-64 px-4">
+                <div class="relative z-20 w-64 px-4">
                     <div
                         v-show="citySearch !== ''"
-                        class="absolute left-0 right-0 top-1 max-h-64 overflow-hidden overflow-y-auto rounded-lg border border-black/25 bg-white/50 backdrop-blur-lg"
+                        class="absolute left-0 right-0 top-1 max-h-64 overflow-hidden overflow-y-auto rounded-lg border border-black/25 bg-white"
                     >
                         <button
                             v-for="city in cityResults"
@@ -343,8 +284,20 @@ const setSorting = (field, dir) => {
                     </div>
                 </div>
             </div>
-            <div class="group relative">
-                <div class="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2 py-1">
+            <div
+                @click="mapOpen = !mapOpen"
+                class="flex md:hidden items-center gap-1 rounded-lg border border-neutral-200 cursor-pointer bg-white px-2 py-1"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
+                </svg>
+                <span>Map</span>
+            </div>
+            <div class="group md:relative">
+                <div
+                    @click="filtersOpen = !filtersOpen"
+                    class="flex items-center gap-1 rounded-lg border border-neutral-200 cursor-pointer bg-white px-2 py-1"
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
                         <path
                             d="M10 3.75a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM17.25 4.5a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM5 3.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM4.25 17a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM17.25 17a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM9 10a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1 0-1.5h5.5A.75.75 0 0 1 9 10ZM17.25 10.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM14 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10 16.25a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z"
@@ -352,11 +305,14 @@ const setSorting = (field, dir) => {
                     </svg>
                     <span>Filters</span>
                 </div>
-                <div class="absolute left-0 top-full z-10 hidden pt-1 group-hover:block">
-                    <div class="flex w-72 flex-col gap-2 rounded-lg border border-black/25 bg-white shadow-lg">
+                <div
+                    class="absolute left-1 right-1 md:right-[unset] top-full z-20 hidden pt-1 group-hover:block"
+                    :class="{ '!block': filtersOpen }"
+                >
+                    <div class="flex flex-col gap-2 rounded-lg border border-black/25 bg-white shadow-lg md:w-72">
                         <div class="px-3 py-2">
                             <span>{{ propertyType === 'sale' ? 'List Price' : 'Monthly Rent' }}</span>
-                            <div class="flex justify-between mb-2">
+                            <div class="mb-2 flex justify-between">
                                 <span>{{ fmtPriceCmp(activePriceCurve[priceMin]) }}</span>
                                 <span>{{ fmtPriceCmp(activePriceCurve[priceMax]) }}</span>
                             </div>
@@ -395,27 +351,61 @@ const setSorting = (field, dir) => {
                         <div class="px-3 py-2">
                             <span>Type</span>
                             <div class="flex justify-between gap-2">
-                                <button @click="propertyType = 'rent';searchMap();" class="rounded-lg px-2 py-1 bg-neutral-100 border border-neutral-200 cursor-pointer grow" :class="{'!border-blue-500 text-blue-500': propertyType === 'rent'}">Rent</button>
-                                <button @click="propertyType = 'sale';searchMap();" class="rounded-lg px-2 py-1 bg-neutral-100 border border-neutral-200 cursor-pointer grow" :class="{'!border-blue-500 text-blue-500': propertyType === 'sale'}">Sale</button>
+                                <button
+                                    @click="
+                                        propertyType = 'rent';
+                                        searchMap();
+                                    "
+                                    class="grow cursor-pointer rounded-lg border border-neutral-200 bg-neutral-100 px-2 py-1"
+                                    :class="{ '!border-blue-500 text-blue-500': propertyType === 'rent' }"
+                                >
+                                    Rent
+                                </button>
+                                <button
+                                    @click="
+                                        propertyType = 'sale';
+                                        searchMap();
+                                    "
+                                    class="grow cursor-pointer rounded-lg border border-neutral-200 bg-neutral-100 px-2 py-1"
+                                    :class="{ '!border-blue-500 text-blue-500': propertyType === 'sale' }"
+                                >
+                                    Sale
+                                </button>
                             </div>
-                            <button v-if="0" @click="propertyType = null;searchMap();">Any</button>
+                            <button
+                                v-if="0"
+                                @click="
+                                    propertyType = null;
+                                    searchMap();
+                                "
+                            >
+                                Any
+                            </button>
                         </div>
                         <div class="p-2">
-                            <button @click="searchMap" class="cursor-pointer w-full bg-neutral-200 rounded-lg px-2 py-1">Apply</button>
+                            <button
+                                @click="
+                                    searchMap();
+                                    filtersOpen = false;
+                                "
+                                class="w-full cursor-pointer rounded-lg bg-neutral-200 px-2 py-1"
+                            >
+                                Apply
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex grow">
-            <div class="flex grow md:grow-0 md:w-1/3 flex-col">
+        <div class="flex grow relative">
+            <div class="flex grow flex-col md:w-1/3 md:grow-0 z-10 bg-white/10 backdrop-blur-sm backdrop-brightness-125 md:!flex" :class="{'hidden': !mapOpen}">
                 <div class="flex items-end justify-between border-b border-neutral-200 px-4 pb-3 pt-2">
                     <div>
                         <h1 class="text-lg font-bold">Properties For Sale</h1>
                         <span class="text-sm text-neutral-500">{{ gridListings.length }} Results</span>
                     </div>
-                    <div class="group relative">
-                        <div class="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2 py-1">
+                    <div class="group md:relative">
+                        <div @click="sortingOpen = !sortingOpen" class="flex items-center gap-1 rounded-lg border border-neutral-200 cursor-pointer bg-white px-2 py-1">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
@@ -428,9 +418,10 @@ const setSorting = (field, dir) => {
                             </svg>
                             <span>Sorting</span>
                         </div>
-                        <div class="absolute left-0 top-full z-10 hidden w-48 pt-1 group-hover:block">
+                        <div class="absolute left-1 right-1 md:right-[unset] top-16 md:top-full z-10 hidden md:w-48 pt-1 group-hover:block" :class="{'!block': sortingOpen}">
                             <div
-                                class="flex flex-col gap-2 rounded-lg border border-black/25 bg-white/50 backdrop-blur"
+                                @click="sortingOpen = false"
+                                class="flex flex-col gap-2 rounded-lg border border-black/25 bg-white"
                             >
                                 <span
                                     @click="setSorting('listed_at', 'desc')"
@@ -529,7 +520,7 @@ const setSorting = (field, dir) => {
                     </div>
                 </div>
             </div>
-            <div class="hidden md:block relative grow overflow-hidden bg-neutral-300">
+            <div class="absolute inset-0 md:relative grow overflow-hidden bg-neutral-300">
                 <div class="absolute inset-0 z-0" id="map"></div>
                 <div
                     v-if="popupListing"
