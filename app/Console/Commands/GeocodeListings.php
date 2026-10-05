@@ -1,28 +1,18 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Console\Commands;
 
 use App\Models\Listing;
 use Geocodio\Geocodio;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class GeocodeListings implements ShouldQueue
+#[Signature('listing:geocode')]
+#[Description('Geocodes listing(s) using the Geocodio API')]
+class GeocodeListings extends Command
 {
-    use Queueable;
-
-    /**
-     * Create a new job instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         $geocoder = new Geocodio;

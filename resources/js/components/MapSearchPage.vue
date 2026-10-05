@@ -6,7 +6,6 @@ import { Link } from '@inertiajs/vue3';
 import {
     fmtPrice,
     fmtPriceCmp,
-    fmtPriceLng,
     listingAddress,
     listingMLSID,
     listingRooms,
@@ -16,7 +15,7 @@ import cities_csv from '~/assets/cities.csv?raw';
 import MinMax from '@/components/MinMax.vue';
 
 const map = ref(null);
-const markers = ref(L.layerGroup());
+const markers = ref(null);
 
 const gridListings = ref([]);
 const markerListings = ref([]);
@@ -43,6 +42,7 @@ const popupTransformX = ref(0);
 const popupTransformY = ref(0);
 
 onMounted(() => {
+    markers.value = L.layerGroup();
     map.value = L.map('map').setView([props.lat, props.lng], props.zoom);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -103,14 +103,16 @@ const searchMap = async () => {
     url.searchParams.append('sort[field]', sortingField.value);
     url.searchParams.append('sort[dir]', sortingDirection.value);
 
-    if (priceMin.value !== null) url.searchParams.append('filter[price_min]', priceCurve[priceMin.value]);
-    if (priceMax.value !== null) url.searchParams.append('filter[price_max]', priceCurve[priceMax.value]);
+    if (priceMin.value !== null) url.searchParams.append('filter[price_min]', activePriceCurve.value[priceMin.value]);
+    if (priceMax.value !== null) url.searchParams.append('filter[price_max]', activePriceCurve.value[priceMax.value]);
 
     if (bedsMin.value !== null) url.searchParams.append('filter[beds_min]', bedsMin.value);
     if (bedsMax.value !== null) url.searchParams.append('filter[beds_max]', bedsMax.value);
 
     if (bathsMin.value !== null) url.searchParams.append('filter[baths_min]', bathsMin.value);
     if (bathsMax.value !== null) url.searchParams.append('filter[baths_max]', bathsMax.value);
+
+    if (propertyType.value !== null) url.searchParams.append('filter[type]', propertyType.value);
 
     let res = await fetch(url);
 
@@ -213,6 +215,8 @@ const bedsMax = ref(5);
 const bathsMin = ref(1);
 const bathsMax = ref(5);
 
+const propertyType = ref('sale');
+
 const priceCurve = [
     0, 10_000, 50_000, 75_000, 100_000, 125_000, 150_000, 175_000, 200_000, 225_000, 250_000, 275_000, 300_000, 325_000,
     350_000, 375_000, 400_000, 425_000, 450_000, 475_000, 500_000, 550_000, 600_000, 650_000, 700_000, 750_000, 800_000,
@@ -222,11 +226,80 @@ const priceCurve = [
     10_000_000, 999_000_000,
 ];
 
+const priceCurveRent = [
+    0,
+    250,
+    500,
+    600,
+    700,
+    800,
+    900,
+    1_000,
+    1_100,
+    1_200,
+    1_300,
+    1_400,
+    1_500,
+    1_600,
+    1_700,
+    1_800,
+    1_900,
+    2_000,
+    2_100,
+    2_200,
+    2_300,
+    2_400,
+    2_500,
+    2_600,
+    2_700,
+    2_800,
+    2_900,
+    3_000,
+    3_100,
+    3_200,
+    3_300,
+    3_400,
+    3_500,
+    3_600,
+    3_700,
+    3_800,
+    3_900,
+    4_000,
+    4_250,
+    4_500,
+    4_750,
+    5_000,
+    5_250,
+    5_500,
+    5_750,
+    6_000,
+    6_250,
+    6_500,
+    6_750,
+    7_000,
+    7_500,
+    8_000,
+    8_500,
+    9_000,
+    9_500,
+    10_000,
+    12_500,
+    15_000,
+    17_500,
+    20_000,
+];
+
+const activePriceCurve = computed(() => {
+    return propertyType.value === 'sale' ? priceCurve : priceCurveRent;
+});
+
 const setSorting = (field, dir) => {
     sortingField.value = field;
     sortingDirection.value = dir;
     searchMap();
 };
+
+// should match
 
 // TODO: highlight card and dot when either one is hovered to quickly identify each
 </script>
@@ -281,23 +354,23 @@ const setSorting = (field, dir) => {
                 </div>
                 <div class="absolute left-0 top-full z-10 hidden pt-1 group-hover:block">
                     <div class="flex w-72 flex-col gap-2 rounded-lg border border-black/25 bg-white shadow-lg">
-                        <div class="px-4 py-2">
-                            <span>List Price</span>
+                        <div class="px-3 py-2">
+                            <span>{{ propertyType === 'sale' ? 'List Price' : 'Monthly Rent' }}</span>
                             <div class="flex justify-between mb-2">
-                                <span>{{ fmtPriceCmp(priceCurve[priceMin]) }}</span>
-                                <span>{{ fmtPriceCmp(priceCurve[priceMax]) }}</span>
+                                <span>{{ fmtPriceCmp(activePriceCurve[priceMin]) }}</span>
+                                <span>{{ fmtPriceCmp(activePriceCurve[priceMax]) }}</span>
                             </div>
                             <MinMax
                                 @commit="searchMap"
-                                :curve="priceCurve"
+                                :curve="activePriceCurve"
                                 :min="0"
-                                :max="priceCurve.length - 1"
+                                :max="activePriceCurve.length - 1"
                                 :step="1"
                                 v-model:low="priceMin"
                                 v-model:high="priceMax"
                             />
                         </div>
-                        <div class="px-4 py-2">
+                        <div class="px-3 py-2">
                             <span>Bedrooms</span>
                             <MinMax
                                 @commit="searchMap"
@@ -308,7 +381,7 @@ const setSorting = (field, dir) => {
                                 v-model:high="bedsMax"
                             />
                         </div>
-                        <div class="px-4 py-2">
+                        <div class="px-3 py-2">
                             <span>Bathrooms</span>
                             <MinMax
                                 @commit="searchMap"
@@ -319,16 +392,13 @@ const setSorting = (field, dir) => {
                                 v-model:high="bathsMax"
                             />
                         </div>
-                        <div class="px-4 py-2">
+                        <div class="px-3 py-2">
                             <span>Type</span>
-                            <MinMax
-                                @commit="searchMap"
-                                :min="0"
-                                :max="5_000_000"
-                                :step="10_000"
-                                v-model:low="priceMin"
-                                v-model:high="priceMax"
-                            />
+                            <div class="flex justify-between gap-2">
+                                <button @click="propertyType = 'rent';searchMap();" class="rounded-lg px-2 py-1 bg-neutral-100 border border-neutral-200 cursor-pointer grow" :class="{'!border-blue-500 text-blue-500': propertyType === 'rent'}">Rent</button>
+                                <button @click="propertyType = 'sale';searchMap();" class="rounded-lg px-2 py-1 bg-neutral-100 border border-neutral-200 cursor-pointer grow" :class="{'!border-blue-500 text-blue-500': propertyType === 'sale'}">Sale</button>
+                            </div>
+                            <button v-if="0" @click="propertyType = null;searchMap();">Any</button>
                         </div>
                         <div class="p-2">
                             <button @click="searchMap" class="cursor-pointer w-full bg-neutral-200 rounded-lg px-2 py-1">Apply</button>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('mls_listing_id');
             $table->string('source_url');
             $table->string('url')->nullable();
+            $table->unsignedInteger('bytes')->nullable();
 
             $table->string('type')->nullable();
             $table->unsignedInteger('order')->nullable();
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->unsignedInteger('width');
 
             $table->timestamp('mls_modified_at')->nullable();
+            $table->timestamp('mls_fetched_at')->nullable();
             $table->timestamp('downloaded_at')->nullable();
             $table->timestamps();
         });

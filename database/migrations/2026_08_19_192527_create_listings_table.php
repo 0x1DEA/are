@@ -58,6 +58,7 @@ return new class extends Migration
             $table->timestamp('geo_fetched_at')->nullable();
 
             $table->timestamp('listed_at')->nullable();
+            $table->timestamp('modified_at')->nullable();
 
             $table->timestamps();
         });
