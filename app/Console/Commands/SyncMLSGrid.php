@@ -12,29 +12,25 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Uri;
+use JsonMachine\Items;
+use JsonMachine\JsonDecoder\ExtJsonDecoder;
 
 #[Signature('mlsgrid:sync')]
 #[Description('Replicates and updates MLS data via MLSGRID API')]
 class SyncMLSGrid extends Command
 {
-    private const int PAGE_SIZE = 200;
+    private const int PAGE_SIZE = 1000;
 
     private const int LISTING_UPSERT_CHUNK = 100;
 
     private const int MEDIA_UPSERT_CHUNK = 500;
 
-    private const int MEDIA_JOB_SIZE = 25;
-
-    private const string MEDIA_QUEUE = 'media';
-
-    private const int MAX_QUEUED_MEDIA_JOBS = 400;
-
     private const int REFRESH_LISTINGS_PER_RUN = 50;
 
     private const string API_DEMO = 'https://api-demo.mlsgrid.com/v2/';
+
     private const string API = 'https://api.mlsgrid.com/v2/';
 
     private const string LOCK_REPLICATE = 'mls_replicate.lock';
@@ -85,12 +81,14 @@ class SyncMLSGrid extends Command
 
         $next = null;
         $last_timestamp = null;
+        $listings = [];
+        $media = [];
 
         do {
             $mls = self::MLS;
 
             // Our oData query
-            $filter = "OriginatingSystemName eq '{$mls}'";
+            $filter = "OriginatingSystemName eq '{$mls}' and StandardStatus eq 'Active'";
 
             // Only grab displayable listing on initial replication
             if ($initial) {
@@ -100,7 +98,7 @@ class SyncMLSGrid extends Command
             // If we are resuming a replication or doing an update
             // During updates replications we follow the links instead of updating
             // Only first run of an update or first run of a replication resume
-            if ((! $initial || $status === '') && ! $next) {
+            if ((! $initial || $status !== null) && ! $next) {
                 $filter .= " and ModificationTimestamp gt {$status}";
             }
 
@@ -115,44 +113,52 @@ class SyncMLSGrid extends Command
             $res = Http::withHeaders([
                 'Accept-Encoding' => 'gzip',
                 'Authorization' => 'Bearer '.config('services.mlsgrid.key'),
-            ])->get($url)->json();
+            ])->get($url)->resource();
 
             // Store our next page link, null if missing (important for later checks)
             // Other condition use $next being null to indicate first run. we cant do that after this point
             // the loop will exit if this is null after this point
-            $next = $res['@odata.nextLink'] ?? null;
-            Log::debug($res);
-            $res = $res['value'];
+            $next = iterator_to_array(Items::fromStream($res, ['pointer' => '/@odata.nextLink']))['@odata.nextLink'] ?? null;
+            rewind($res);
+            $items = Items::fromStream($res, ['pointer' => '/value', 'decoder' => new ExtJsonDecoder(true)]);
 
-            $listings = [];
-            $media = [];
-
-            for ($i = 0; $i < count($res); $i++) {
-                $listings[] = Listing::arrayFromAPI($res[$i]);
+            foreach ($items as $item) {
+                $listings[] = Listing::arrayFromAPI($item);
 
                 if (($count = count($listings)) >= self::LISTING_UPSERT_CHUNK) {
                     $this->upsert($listings, count: $count);
                 }
 
-                $last_timestamp = $res[$i]['ModificationTimestamp'];
-
-                if (array_key_exists('Media', $res[$i])) {
-                    for ($j = 0; $j < count($res[$i]['Media']); $j++) {
-                        $media[] = ListingMedia::arrayFromAPI($res[$i]['Media'][$j]);
+                if (array_key_exists('Media', $item)) {
+                    for ($j = 0; $j < count($item['Media']); $j++) {
+                        $media[] = ListingMedia::arrayFromAPI($item['Media'][$j]);
 
                         if (($count = count($media)) >= self::MEDIA_UPSERT_CHUNK) {
                             $this->upsert($media, true, $count);
                         }
                     }
                 }
+
+                $last_timestamp = $item['ModificationTimestamp'];
+            }
+
+            unset($res);
+            gc_collect_cycles();
+
+            if ($listings) {
+                $this->upsert($listings);
+            }
+            if ($media) {
+                $this->upsert($media, true);
             }
 
             // increment replication progress
-            Storage::disk('local')->put($initial ? self::LOCK_REPLICATE : self::LOCK_UPDATE, $last_timestamp);
-        } while ($next);
+            if ($last_timestamp !== null) {
+                Storage::disk('local')->put($initial ? self::LOCK_REPLICATE : self::LOCK_UPDATE, $last_timestamp);
+            }
 
-        $this->upsert($listings);
-        $this->upsert($media, true);
+            $this->line('Peak: '.round(memory_get_peak_usage(true) / 1048576).'MB');
+        } while ($next);
 
         if ($initial) {
             // initial replication is done
@@ -175,21 +181,19 @@ class SyncMLSGrid extends Command
         $this->info("Upserting {$count} ".($media ? 'media' : 'listing').' records...');
 
         if ($media) {
-            ListingMedia::upsert($data, 'key');
+            //            ListingMedia::upsert($data, 'key');
         } else {
-            Listing::upsert($data, 'mls_id');
+            //            Listing::upsert($data, 'mls_id');
         }
 
-        // reset our array and garbage collect to make sure our memory stays low
         $data = [];
-        gc_collect_cycles();
 
         if ($media) {
             // dispatch downloader. it only has ~1hr and 1 req/hr to download each image
-            Artisan::queue(DownloadListingMedia::class, ['--limit' => self::MEDIA_UPSERT_CHUNK]);
+            //            Artisan::queue(DownloadListingMedia::class, ['--limit' => self::MEDIA_UPSERT_CHUNK]);
         } else {
             // get coordinates for listing, beware of api limits
-            Artisan::queue(GeocodeListings::class);
+            //            Artisan::queue(GeocodeListings::class);
         }
     }
 }
