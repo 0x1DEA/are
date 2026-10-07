@@ -181,19 +181,19 @@ class SyncMLSGrid extends Command
         $this->info("Upserting {$count} ".($media ? 'media' : 'listing').' records...');
 
         if ($media) {
-            //            ListingMedia::upsert($data, 'key');
+            ListingMedia::upsert($data, 'key');
         } else {
-            //            Listing::upsert($data, 'mls_id');
+            Listing::upsert($data, 'mls_id');
         }
 
         $data = [];
 
         if ($media) {
             // dispatch downloader. it only has ~1hr and 1 req/hr to download each image
-            //            Artisan::queue(DownloadListingMedia::class, ['--limit' => self::MEDIA_UPSERT_CHUNK]);
+            // Artisan::queue(DownloadListingMedia::class, ['--limit' => self::MEDIA_UPSERT_CHUNK]);
         } else {
             // get coordinates for listing, beware of api limits
-            //            Artisan::queue(GeocodeListings::class);
+            // Artisan::queue(GeocodeListings::class);
         }
     }
 }
