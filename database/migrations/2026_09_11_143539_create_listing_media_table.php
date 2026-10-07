@@ -27,7 +27,7 @@ return new class extends Migration
             $table->unsignedInteger('width');
 
             $table->timestamp('mls_modified_at')->nullable();
-            $table->timestamp('mls_fetched_at')->nullable();
+            $table->timestamp('mls_updated_at')->nullable();
             $table->timestamp('downloaded_at')->nullable();
             $table->timestamps();
         });

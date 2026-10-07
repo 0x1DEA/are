@@ -9,7 +9,7 @@ class ListingMedia extends Model
 {
     protected $casts = [
         'mls_modified_at' => 'datetime',
-        'mls_fetched_at' => 'datetime',
+        'mls_updated_at' => 'datetime',
         'failed_at' => 'datetime',
         'downloaded_at' => 'datetime',
     ];
