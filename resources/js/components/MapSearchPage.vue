@@ -464,7 +464,7 @@ const mapOpen = ref(false);
                                     <img
                                         v-if="listingThumb(p)"
                                         alt=""
-                                        class="absolute inset-0 object-cover"
+                                        class="size-full object-cover object-center"
                                         loading="lazy"
                                         :src="listingThumb(p)"
                                     />
