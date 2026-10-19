@@ -118,28 +118,33 @@ class SyncMLSGrid extends Command
             // Store our next page link, null if missing (important for later checks)
             // Other condition use $next being null to indicate first run. we cant do that after this point
             // the loop will exit if this is null after this point
-            $next = iterator_to_array(Items::fromStream($res, ['pointer' => '/@odata.nextLink']))['@odata.nextLink'] ?? null;
-            rewind($res);
-            $items = Items::fromStream($res, ['pointer' => '/value', 'decoder' => new ExtJsonDecoder(true)]);
+            $data = Items::fromStream($res, ['decoder' => new ExtJsonDecoder(true)]);
 
-            foreach ($items as $item) {
-                $listings[] = Listing::arrayFromAPI($item);
-
-                if (($count = count($listings)) >= self::LISTING_UPSERT_CHUNK) {
-                    $this->upsert($listings, count: $count);
+            foreach ($data as $key => $value) {
+                if ($data->getMatchedJsonPointer() === '/@odata.nextLink') {
+                    $next = $data;
+                    continue;
                 }
 
-                if (array_key_exists('Media', $item)) {
-                    for ($j = 0; $j < count($item['Media']); $j++) {
-                        $media[] = ListingMedia::arrayFromAPI($item['Media'][$j]);
+                foreach ($value as $item) {
+                    $listings[] = Listing::arrayFromAPI($item);
 
-                        if (($count = count($media)) >= self::MEDIA_UPSERT_CHUNK) {
-                            $this->upsert($media, true, $count);
+                    if (($count = count($listings)) >= self::LISTING_UPSERT_CHUNK) {
+                        $this->upsert($listings, count: $count);
+                    }
+
+                    if (array_key_exists('Media', $item)) {
+                        for ($j = 0; $j < count($item['Media']); $j++) {
+                            $media[] = ListingMedia::arrayFromAPI($item['Media'][$j]);
+
+                            if (($count = count($media)) >= self::MEDIA_UPSERT_CHUNK) {
+                                $this->upsert($media, true, $count);
+                            }
                         }
                     }
-                }
 
-                $last_timestamp = $item['ModificationTimestamp'];
+                    $last_timestamp = $item['ModificationTimestamp'];
+                }
             }
 
             unset($res);
