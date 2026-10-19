@@ -164,22 +164,27 @@ class DownloadListingMedia extends Command
                     $render['bar']->finish();
                     $render['log']->writeln('Chunk complete, upserting '.count($updates));
                 }
+
                 ListingMedia::upsert($updates, 'id', ['key', 'url', 'downloaded_at', 'bytes', 'failed_at']);
+
+                return true;
             });
 
         if ($runs === 0) {
-            $expired = ListingMedia::query()
-                ->whereNull('downloaded_at')
-                ->where(function (Builder $query) {
-                    $query->where('mls_updated_at', '<', now()->subMinutes(self::URL_TTL))
-                        ->orWhere('mls_updated_at', '<', 'failed_at');
-                })->count();
-
             $this->info('Nothing to do.');
-
-            if ($expired > 0) {
-                $this->warn("{$expired} record".($expired === 1 ? ' is' : 's are').' missing but expired!');
-            }
         }
+
+        $expired = ListingMedia::query()
+            ->whereNull('downloaded_at')
+            ->where(function (Builder $query) {
+                $query->where('mls_updated_at', '<', now()->subMinutes(self::URL_TTL))
+                    ->orWhere('mls_updated_at', '<', 'failed_at');
+            })->count();
+
+        if ($expired > 0) {
+            $this->warn("{$expired} record".($expired === 1 ? ' is' : 's are').' missing but expired!');
+        }
+
+        $this->info('Done');
     }
 }
