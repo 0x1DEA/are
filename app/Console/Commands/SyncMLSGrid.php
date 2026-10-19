@@ -121,29 +121,30 @@ class SyncMLSGrid extends Command
             $data = Items::fromStream($res, ['decoder' => new ExtJsonDecoder(true)]);
 
             foreach ($data as $key => $value) {
-                if ($data->getMatchedJsonPointer() === '/@odata.nextLink') {
+                if ($key === '@odata.nextLink') {
                     $next = $data;
+                } elseif ($key === '@odata.context') {
                     continue;
-                }
+                } elseif ($key === 'value') {
+                    foreach ($value as $item) {
+                        $listings[] = Listing::arrayFromAPI($item);
 
-                foreach ($value as $item) {
-                    $listings[] = Listing::arrayFromAPI($item);
+                        if (($count = count($listings)) >= self::LISTING_UPSERT_CHUNK) {
+                            $this->upsert($listings, count: $count);
+                        }
 
-                    if (($count = count($listings)) >= self::LISTING_UPSERT_CHUNK) {
-                        $this->upsert($listings, count: $count);
-                    }
+                        if (array_key_exists('Media', $item)) {
+                            for ($j = 0; $j < count($item['Media']); $j++) {
+                                $media[] = ListingMedia::arrayFromAPI($item['Media'][$j]);
 
-                    if (array_key_exists('Media', $item)) {
-                        for ($j = 0; $j < count($item['Media']); $j++) {
-                            $media[] = ListingMedia::arrayFromAPI($item['Media'][$j]);
-
-                            if (($count = count($media)) >= self::MEDIA_UPSERT_CHUNK) {
-                                $this->upsert($media, true, $count);
+                                if (($count = count($media)) >= self::MEDIA_UPSERT_CHUNK) {
+                                    $this->upsert($media, true, $count);
+                                }
                             }
                         }
-                    }
 
-                    $last_timestamp = $item['ModificationTimestamp'];
+                        $last_timestamp = $item['ModificationTimestamp'];
+                    }
                 }
             }
 
