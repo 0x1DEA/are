@@ -137,6 +137,7 @@ const contacted = ref(false);
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
                         </svg>
                     </button>
+                    <span class="absolute bottom-2 right-2 bg-black/25 backdrop-blur text-sm text-white/50 px-2 py-1 rounded-lg">Photo by <a class="underline" href="https://unsplash.com/@sawyerbengtson?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Sawyer Bengtson</a></span>
                 </div>
             </div>
             <div ref="agents" class="flex flex-col items-center px-16 gap-8 py-8">
