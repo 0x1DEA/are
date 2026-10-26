@@ -50,10 +50,18 @@ const monthly = computed(() => {
     return payment.toFixed(2);
 });
 
+const mediaLength = props.listing.media.length;
+
+const mediaPreviewLength = computed(() => {
+    if (mediaLength >= 5) return 5;
+    if (mediaLength >= 2) return 2;
+    return 1;
+});
+
 const galleryItems = computed(() => {
     let out = [];
 
-    for (let i = 0; i < props.listing.media.length; i++) {
+    for (let i = 0; i < mediaLength; i++) {
         let m = props.listing.media[i];
         out.push({
             src: '/storage/' + m.url,
@@ -63,6 +71,19 @@ const galleryItems = computed(() => {
 
     return out;
 });
+
+const gridClass = computed(() => {
+    if (mediaPreviewLength.value >= 5) return 'grid-cols-4';
+    if (mediaPreviewLength.value >= 2) return 'grid-cols-2';
+});
+
+const gridItemClass = (i) => {
+    return {
+        'hidden': i >= mediaPreviewLength.value,
+        'col-span-2 row-span-2': mediaLength >= 5 && i === 0,
+        'max-h-96': mediaLength === 1,
+    };
+};
 </script>
 <template>
     <div class="flex flex-col items-center">
@@ -78,10 +99,10 @@ const galleryItems = computed(() => {
                 </svg>
                 <Link href="/search" class="cursor-pointer">Back to Search</Link>
             </div>
-            <div class="grid grid-cols-4 overflow-hidden rounded-xl gap-1">
+            <div class="grid overflow-hidden rounded-xl gap-1" :class="gridClass">
                 <LightGallery :plugins="plugins">
-                    <LgItem v-for="(media, i) in galleryItems" :key="media.key" :item="media" :class="{'col-span-2 row-span-2': i === 0, 'hidden': i > 4}">
-                        <img loading="lazy" class="w-full object-cover" :src="media.src" alt=""/>
+                    <LgItem v-for="(media, i) in galleryItems" :key="media.key" :item="media" :class="gridItemClass(i)">
+                        <img loading="lazy" class="w-full h-full object-center object-cover" :src="media.src" alt=""/>
                     </LgItem>
                 </LightGallery>
             </div>
