@@ -116,16 +116,15 @@ const gridItemClass = (i) => {
                     <span class="font-bold">{{ listingOverview(listing) }}</span>
                     <p>{{ listing.public_remarks }}</p>
 
-                    <h2 class="mt-4 border-b-2 font-bold">Location</h2>
-                    <span class="text-2xl font-bold">{{ listingAddress(listing) }}</span>
-
+                    <h2 v-if="listing.coordinates" class="mt-4 border-b-2 font-bold">Location</h2>
+                    <span v-if="listing.coordinates" class="text-2xl font-bold">{{ listingAddress(listing) }}</span>
                     <Leaflet
+                        v-if="listing.coordinates"
                         :lat="listing.coordinates.coordinates[0]"
                         :lng="listing.coordinates.coordinates[1]"
                         :zoom="16"
                         class="aspect-square w-full rounded-lg"
                     />
-                    <span v-if="0">misc/schools/providers</span>
 
                     <h2 v-if="listing.sale_price" class="mt-4 border-b-2 font-bold">Mortgage Calculator</h2>
                     <div v-if="listing.sale_price" class="grid gap-4 rounded-lg bg-neutral-100 p-4 md:grid-cols-2">
@@ -222,13 +221,14 @@ const gridItemClass = (i) => {
                 <div class="relative col-span-2 md:col-span-1">
                     <div
                         v-if="agent"
-                        class="sticky top-2 flex flex-col gap-1 rounded-lg border border-neutral-200 bg-neutral-100 p-4 shadow-lg"
+                        class="sticky top-2 flex flex-col gap-1 rounded-lg bg-neutral-100 p-4"
                     >
-                        <p class="text-center pb-2">Interested? We can help!</p>
+                        <h2 class="font-bold text-2xl text-center">Interested?</h2>
+                        <p class="text-center pb-2">We can help!</p>
                         <img class="aspect-square object-cover rounded-lg" loading="lazy" alt="" :src="`/storage/${agent.headshot_url}`"/>
                         <h1 class="text-2xl font-bold">{{ agent.name_first }} {{ agent.name_last }}</h1>
-                        <a :href="`tel:${$$.tel}`">{{ $$.tel_s }}</a>
-                        <a :href="`mailto:${$$.email}`">{{ $$.email }}</a>
+                        <a :href="`tel:${$$.tel}`" class="underline">{{ $$.tel_s }}</a>
+                        <a :href="`mailto:${$$.email}`" class="underline">{{ $$.email }}</a>
                     </div>
                 </div>
             </div>

@@ -29,15 +29,27 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
-Route::get('/listing/{listing:mls_id}', function (Listing $listing) {
-    if ($listing->doesntHave('thumbnail')) {
+Route::get('/listing/{mlsno}', function (string $mlsno) {
+    $listing = Listing::query()
+        ->with(['thumbnail', 'media'])
+        ->where('mls_id', $mlsno)
+        ->first();
+
+    if (! $listing || $listing->doesntHave('thumbnail')) {
         Artisan::call(SingleListing::class, [
-            'mlsno' => $listing->mls_id,
+            'mlsno' => $mlsno,
         ]);
+
+        if (! $listing) {
+            $listing = Listing::query()
+                ->with(['thumbnail', 'media'])
+                ->where('mls_id', $mlsno)
+                ->firstOrFail();
+        }
     }
 
     return Inertia::render('Listings/Show', [
-        'listing' => $listing->load(['thumbnail', 'media']),
+        'listing' => $listing,
         'agent' => Agent::query()->oldest()->first(),
     ]);
 })->name('listing.show');
