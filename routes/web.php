@@ -37,7 +37,7 @@ Route::get('/listing/{listing:mls_id}', function (Listing $listing) {
     }
 
     return Inertia::render('Listings/Show', [
-        'listing' => $listing->load(['thumbnail']),
+        'listing' => $listing->load(['thumbnail', 'media']),
         'agent' => Agent::query()->oldest()->first(),
     ]);
 })->name('listing.show');

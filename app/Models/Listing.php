@@ -81,4 +81,9 @@ class Listing extends Model
     {
         return $this->hasOne(ListingMedia::class, 'mls_listing_id', 'mls_id')->whereNotNull('url');
     }
+
+    public function media(): HasMany
+    {
+        return $this->hasMany(ListingMedia::class, 'mls_listing_id', 'mls_id')->whereNotNull('url');
+    }
 }

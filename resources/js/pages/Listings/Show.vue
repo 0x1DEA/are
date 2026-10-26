@@ -5,11 +5,22 @@ import Header from '@/components/Header.vue';
 import Leaflet from '@/components/Leaflet.vue';
 import { computed, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import {
+    LightGallery,
+    LgItem,
+} from '@lightgallery/vue';
+import Thumbnail from '@lightgallery/vue/plugins/thumbnail';
+import Zoom from '@lightgallery/vue/plugins/zoom';
+import 'lightgallery/css/lightgallery.css';
+import 'lightgallery/css/lg-thumbnail.css';
+import 'lightgallery/css/lg-zoom.css';
 
 const props = defineProps({
     listing: Object,
     agent: Object,
 });
+
+const plugins = [Thumbnail, Zoom];
 
 const back = () => window.history.back();
 
@@ -38,6 +49,20 @@ const monthly = computed(() => {
 
     return payment.toFixed(2);
 });
+
+const galleryItems = computed(() => {
+    let out = [];
+
+    for (let i = 0; i < props.listing.media.length; i++) {
+        let m = props.listing.media[i];
+        out.push({
+            src: '/storage/' + m.url,
+            thumb: '/storage/' + m.url,
+        })
+    }
+
+    return out;
+});
 </script>
 <template>
     <div class="flex flex-col items-center">
@@ -53,14 +78,12 @@ const monthly = computed(() => {
                 </svg>
                 <Link href="/search" class="cursor-pointer">Back to Search</Link>
             </div>
-            <div>
-                <p class="text-neutral-400 text-sm text-right">This property listed by {{listing.mls_data.ListAgentFullName}} at {{listing.mls_data.ListOfficeName}}</p>
-                <div class="flex items-center justify-center relative h-72 bg-neutral-200 rounded-lg">
-                    <img v-if="listingThumb(listing)" class="object-cover object-center h-full w-full rounded-lg z-10 absolute inset-0" loading="lazy" alt="" :src="listingThumb(listing)"/>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-18 text-neutral-300">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                    </svg>
-                </div>
+            <div class="grid grid-cols-4 overflow-hidden rounded-xl gap-1">
+                <LightGallery :plugins="plugins">
+                    <LgItem v-for="(media, i) in galleryItems" :key="media.key" :item="media" :class="{'col-span-2 row-span-2': i === 0, 'hidden': i > 4}">
+                        <img loading="lazy" class="w-full object-cover" :src="media.src" alt=""/>
+                    </LgItem>
+                </LightGallery>
             </div>
             <div class="grid grid-cols-2 gap-8 p-4 md:grid-cols-3 md:p-0">
                 <div class="col-span-2 flex flex-col gap-2">
