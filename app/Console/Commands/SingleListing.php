@@ -9,6 +9,7 @@ use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Uri;
 use JsonMachine\Items;
@@ -62,6 +63,10 @@ class SingleListing extends Command
                         }
 
                         ListingMedia::upsert($media, 'key');
+
+                        Artisan::queue(DownloadListingMedia::class, [
+                            'listing' => $item['ListingId'],
+                        ]);
                     }
                 }
             }

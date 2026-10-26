@@ -1,9 +1,11 @@
 <?php
 
+use App\Console\Commands\SingleListing;
 use App\Models\Agent;
 use App\Models\Listing;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -28,6 +30,12 @@ Route::get('/contact', function () {
 })->name('contact');
 
 Route::get('/listing/{listing:mls_id}', function (Listing $listing) {
+    if ($listing->doesntHave('thumbnail')) {
+        Artisan::call(SingleListing::class, [
+            'mlsno' => $listing->mls_id,
+        ]);
+    }
+
     return Inertia::render('Listings/Show', [
         'listing' => $listing->load(['thumbnail']),
         'agent' => Agent::query()->oldest()->first(),
