@@ -16,13 +16,14 @@ const back = () => window.history.back();
 const term = ref(30);
 const interest = ref(7);
 const downPercent = ref(20);
-const downMoney = ref(props.listing?.sale_price * (downPercent.value / 100));
+const downMoney = ref((props.listing?.sale_price ?? 0) * (downPercent.value / 100));
+const salePrice = ref(props.listing?.sale_price ?? 0);
 const paymentPrincipal = ref(null);
 
 const monthly = computed(() => {
     const _interest = interest.value / 100 / 12;
     const _payments = term.value * 12;
-    const principal = props.listing?.sale_price - downMoney.value;
+    const principal = salePrice.value - downMoney.value;
 
     let payment;
 
@@ -82,26 +83,32 @@ const monthly = computed(() => {
                     />
                     <span v-if="0">misc/schools/providers</span>
 
-                    <h2 v-if="listing.sale_price" class="mt-4 border-b-2 font-bold">Mortgage</h2>
+                    <h2 v-if="listing.sale_price" class="mt-4 border-b-2 font-bold">Mortgage Calculator</h2>
                     <div v-if="listing.sale_price" class="grid gap-4 rounded-lg bg-neutral-100 p-4 md:grid-cols-2">
                         <div class="flex flex-col gap-2">
                             <div>
-                                <span>Home price</span>
-                                <label class="flex items-center rounded-lg bg-white pr-2">
+                                <div class="flex justify-between items-end gap-2">
+                                    <span>Sale Price</span>
+                                    <button @click="salePrice = listing.sale_price" class="underline text-sm cursor-pointer">Reset</button>
+                                </div>
+                                <label class="flex items-center rounded-lg bg-white pr-2 w-full">
                                     <span class="px-2 text-neutral-500">$</span>
-                                    <span class="grow py-1">{{ fmtPrice(listing).replace('$', '') }}</span>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        class="size-5 text-neutral-300"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z"
-                                            clip-rule="evenodd"
-                                        />
+                                    <input
+                                        v-model="salePrice"
+                                        @input="downPercent = (downMoney / salePrice) * 100"
+                                        type="number"
+                                        class="ronuded-r-lg w-full min-w-0 py-1 focus-visible:outline-0 mr-2"
+                                    />
+                                    <span v-if="salePrice - listing.sale_price" class="flex items-center">
+                                        <span class="mr-1" :class="salePrice > listing.sale_price ? 'text-red-500' : 'text-green-500'">{{ fmtPriceLng(salePrice - listing.sale_price) }}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" :class="salePrice > listing.sale_price ? 'text-red-500 rotate-180' : 'text-green-500'">
+                                            <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                    <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.499 8.248h15m-15 7.501h15" />
                                     </svg>
+
                                 </label>
                             </div>
                             <div>
