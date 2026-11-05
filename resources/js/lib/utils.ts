@@ -68,9 +68,9 @@ export const listingOverview = (l: any) => {
     const date = (d: string) => new Date(d).toLocaleDateString()
     const datetime = (d: string) => new Date(d).toLocaleString()
 
-    if (l.bedrooms) out.push(`${l.status}`)
-    if (l.total_bathrooms) out.push(`Listed ${date(l.mls_data['OriginalEntryTimestamp'])}`)
-    if (l.living_area_sq_ft) out.push(`Updated ${datetime(l.mls_data['StatusChangeTimestamp'])}`)
+    out.push(`${l.status}`)
+    if (l.listed_at) out.push(`Listed ${date(l.listed_at)}`)
+    if (l.modified_at) out.push(`Updated ${datetime(l.modified_at)}`)
 
     return out.join(' · ');
 };

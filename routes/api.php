@@ -100,6 +100,7 @@ Route::get('search/{coordinates}', function (Request $request, $coordinates) {
     $q->orderByDistanceSphere(DB::raw('POINT(ST_Y(coordinates), ST_X(coordinates))'), new Point($lat, $lng, Srid::WGS84));
 
     return $q->limit(1000)
+        ->select(['id', 'mls_id', 'address_number', 'address_direction', 'address_street', 'address_street_suffix', 'address_unit', 'address_city', 'address_state', 'address_postal', 'listing_agent_mls_id', 'living_area_sq_ft', 'acres_lot', 'bedrooms', 'total_bathrooms', 'full_bathrooms', 'half_bathrooms', 'sale_price_original', 'sale_price', 'rent_price_original', 'rent_price', 'real_estate_tax', 'common_charges', 'status', 'public_remarks', 'private_remarks', 'type', 'year_built', 'neighborhood', 'feed_idx', 'feed_vow', 'feed_bo', 'feed_pt', 'coordinates', 'mls_fetched_at', 'geo_fetched_at', 'listed_at', 'modified_at'])
         ->where('feed_idx', true)
         ->where('status', 'Active')
         ->with(['thumbnail'])

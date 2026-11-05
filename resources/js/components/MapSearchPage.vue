@@ -10,6 +10,7 @@ import MinMax from '@/components/MinMax.vue';
 const map = ref(null);
 const markers = ref(null);
 
+const requesting = ref(null);
 const gridListings = ref([]);
 const markerListings = ref([]);
 
@@ -107,6 +108,8 @@ const searchMap = async () => {
 
     if (propertyType.value !== null) url.searchParams.append('filter[type]', propertyType.value);
 
+    requesting.value = true;
+
     let res = await fetch(url);
 
     if (!res.ok) return; // API error?
@@ -134,6 +137,8 @@ const searchMap = async () => {
             .on('click', markerCard)
             .addTo(markers.value);
     }
+
+    requesting.value = false;
 };
 
 const popupListing = ref(null);
@@ -402,7 +407,7 @@ const mapOpen = ref(false);
                 <div class="flex items-end justify-between border-b border-neutral-200 px-4 pb-3 pt-2">
                     <div>
                         <h1 class="text-lg font-bold">Properties For Sale</h1>
-                        <span class="text-sm text-neutral-500">{{ gridListings.length }} Results</span>
+                        <span class="text-sm text-neutral-500">{{ requesting === null ? 'Loading' : gridListings.length }} Results</span>
                     </div>
                     <div class="group md:relative">
                         <div @click="sortingOpen = !sortingOpen" class="flex items-center gap-1 rounded-lg border border-neutral-200 cursor-pointer bg-white px-2 py-1">
@@ -447,10 +452,15 @@ const mapOpen = ref(false);
                         </div>
                     </div>
                 </div>
-                <div v-show="gridListings.length === 0" class="p-8 text-center">
-                    <h1 class="text-xl font-bold">No Results</h1>
-                    <p>Try searching a different area, zooming out, or adjusting your filters</p>
-                </div>
+                <template v-if="gridListings.length === 0">
+                    <div v-if="requesting === null" class="p-8 text-center">
+                        <h1 class="text-xl font-bold">Searching...</h1>
+                    </div>
+                    <div v-else class="p-8 text-center">
+                        <h1 class="text-xl font-bold">No Results</h1>
+                        <p>Try searching a different area, zooming out, or adjusting your filters</p>
+                    </div>
+                </template>
                 <div class="relative grow">
                     <div class="absolute inset-0 grid grid-cols-2 gap-4 overflow-y-auto p-4">
                         <div v-for="p in gridListings" :key="p.mls_id" class="flex h-fit flex-col">
