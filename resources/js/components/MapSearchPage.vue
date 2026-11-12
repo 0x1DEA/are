@@ -6,6 +6,7 @@ import { Link } from '@inertiajs/vue3';
 import { fmtPrice, fmtPriceCmp, listingAddress, listingMLSID, listingRooms, listingThumb } from '@/lib/utils.ts';
 import cities_csv from '~/assets/cities.csv?raw';
 import MinMax from '@/components/MinMax.vue';
+import Supercluster from 'supercluster';
 
 const map = ref(null);
 const markers = ref(null);
@@ -116,25 +117,58 @@ const searchMap = async () => {
 
     res = await res.json();
 
+    const features = [];
+
+    for (const listing in res) {
+        features.push({
+            type: 'Feature',
+            properties: {
+                listing_index: listing,
+            },
+            geometry: {
+                type: 'Point',
+                coordinates: res[listing].coordinates.coordinates.reverse(),
+            },
+        });
+    }
+
+    const index = new Supercluster({
+        radius: 60,
+        maxZoom: 18,
+        minZoom: 10,
+    }).load(features);
+
+    const clusters = index.getClusters([
+        bounds.getWest(),
+        bounds.getSouth(),
+        bounds.getEast(),
+        bounds.getNorth(),
+    ], map.value.getZoom());
+
     markers.value.clearLayers();
 
     gridListings.value = res;
 
-    for (const listing in res) {
+    for (const cluster in clusters) {
+        const isCluster = clusters[cluster]?.properties?.cluster;
+
         let el = document.createElement('div');
-        el.className = 'leaflet-custom-marker-popup';
-        el.innerText = fmtPrice(res[listing], true);
+        el.className = `leaflet-custom-${isCluster ? 'cluster-number' : 'marker-popup'}`;
+        el.innerText = clusters[cluster]?.properties?.point_count ?? fmtPrice(gridListings.value[clusters[cluster].properties.listing_index], true);
 
         let markdiv = L.divIcon({
-            className: 'leaflet-custom-marker group',
+            className: `leaflet-custom-${isCluster ? 'cluster' : 'marker'} group`,
             html: el,
         });
 
-        L.marker(res[listing].coordinates.coordinates, {
+        const coords = clusters[cluster].geometry.coordinates.reverse();
+
+        // fix apartment buildings with identical coordiantes
+        L.marker(coords, {
             icon: markdiv,
-            listing_index: listing,
+            listing_index: clusters[cluster]?.properties?.listing_index ?? 0,
         })
-            .on('click', markerCard)
+            .on('click', isCluster ? () => goToLL(...coords, map.value.getZoom() + 1) : markerCard)
             .addTo(markers.value);
     }
 
@@ -534,7 +568,7 @@ const mapOpen = ref(false);
                 <div class="absolute inset-0 z-0" id="map"></div>
                 <div
                     v-if="popupListing"
-                    class="z-10 flex w-72 flex-col rounded-lg border border-black/25 bg-white/25 backdrop-blur"
+                    class="z-10 flex w-72 flex-col rounded-lg bg-white shadow-xl"
                     :style="`transform: translate3d(calc(${popupTransformX}px - 50%), calc(${popupTransformY}px - 100% - 1rem), 0);`"
                 >
                     <img
@@ -571,10 +605,28 @@ const mapOpen = ref(false);
 .leaflet-custom-marker::after {
     content: '';
     inset: 0.25rem;
-    background: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0);
     border-radius: 100%;
     display: block;
     position: absolute;
+}
+
+.leaflet-custom-cluster {
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 100%;
+}
+
+.leaflet-custom-cluster-number {
+    position: absolute;
+    padding: 0.1rem 0.5rem;
+    font-weight: bold;
+    background-color: white;
+    border-radius: calc(infinity * 1px);
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 10;
 }
 
 .leaflet-custom-marker-popup {
@@ -583,7 +635,8 @@ const mapOpen = ref(false);
     background: white;
     font-weight: bold;
     border-radius: calc(infinity * 1px);
-    top: calc(100% + var(--popup-offset));
+    /*top: calc(100% + var(--popup-offset));*/
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     transition: top 100ms;
