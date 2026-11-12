@@ -15,6 +15,29 @@ This repository has configured a GitHub Actions workflow for deployment to both 
 
 Both actions are set to build assets install PHP on a runner to fire Deployer script which can be found at `/deployer.php`
 
+# Additional Data Sources
+
+## Demographics
+https://data.census.gov
+
+## Climate
+https://openaq.org/
+https://open-meteo.com/
+https://www.nationalflooddata.com/
+
+## Utilities
+TBD, find shapefile sources
+
+## Crime
+https://whatismycrimerisk.com/
+
+## Internet Providers
+https://broadbandmap.fcc.gov/data-download/nationwide-data
+
+## School Data
+https://niche.com/
+https://greatschools.org/
+
 # Sunsetting / Migration to Other Service
 If you are a vendor for a SaaS real estate CRM software solution or whatever the fuck, and you're charging through the nose for this migration to your platform which will in turn charge my aunt something crazy monthly for some bullshit service, I hope you're comfortable knowing you're going to hell forever.
 
