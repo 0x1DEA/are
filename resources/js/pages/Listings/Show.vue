@@ -184,6 +184,8 @@ const shareForm = useForm({
 });
 
 const submitShare = () => {
+    if (shareForm.processing) return;
+
     shareForm.post(`/listing/${props.listing.mls_id}/share`, {
         onSuccess: () => {
             lastSignupBugDismissal.value = timestamp.value - signupBugInterval.value;
@@ -425,7 +427,7 @@ const showNag = computed(() => {
                                 <li class="text-red-500" v-for="error in $page.props.errors">{{ error }}</li>
                             </ul>
                             <div id="cf-turnstile-share" class="flex justify-center"></div>
-                            <button @click="submitShare" class="text-white font-bold bg-neutral-800 p-3 rounded-lg cursor-pointer">Send</button>
+                            <button :disabled="shareForm.processing" @click="submitShare" class="text-white font-bold bg-neutral-800 p-3 rounded-lg cursor-pointer">Send</button>
                         </template>
                     </Modal>
                     <button :disabled="reactionForm.processing" @click="saveListing" class="flex items-center    justify-center gap-1 bg-neutral-800 text-white font-bold p-2 rounded-lg w-full cursor-pointer">
