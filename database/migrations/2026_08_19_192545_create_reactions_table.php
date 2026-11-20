@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('reactions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('listing_id');
+            $table->string('category')->nullable();
             $table->timestamps();
         });
     }

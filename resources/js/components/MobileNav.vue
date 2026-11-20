@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { routeIsURL } from '@/lib/utils';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 </script>
 <template>
     <details class="md:hidden p-4 group">
@@ -14,6 +14,9 @@ import { Link } from '@inertiajs/vue3';
             <Link href="/search" class="text-5xl font-bold w-fit" :class="{'border-b-4': routeIsURL('/search')}">Search</Link>
             <Link href="/agents" class="text-5xl font-bold w-fit" :class="{'border-b-4': routeIsURL('/agents')}">Agents</Link>
             <Link href="/contact" class="text-5xl font-bold w-fit" :class="{'border-b-4': routeIsURL('/contact')}">Contact</Link>
+            <button v-if="$page.props.auth.user" @click="router.post('/logout')" class="text-5xl font-bold w-fit">Logout</button>
+            <Link v-else href="/login" class="text-5xl font-bold w-fit" :class="{'border-b-4': routeIsURL('/login')}">Log In</Link>
+
         </div>
     </details>
 </template>

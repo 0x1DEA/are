@@ -48,9 +48,9 @@ const agentsSection = useTemplateRef('agents');
 
 const scrollDown = () => {
     agentsSection.value.scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
     });
-}
+};
 
 const contactForm = useForm({
     subject: '',
@@ -65,7 +65,7 @@ const contactSubmit = () => {
         },
         preserveScroll: true,
     });
-}
+};
 
 const contacted = ref(false);
 </script>
@@ -80,26 +80,48 @@ const contacted = ref(false);
             <div class="z-10">
                 <img src="./../../assets/are_logo_full.svg" alt="" class="h-32 p-4" />
             </div>
-            <div class="flex flex-col z-10">
-                <div class="hidden md:flex items-center justify-end gap-2 px-2 py-1" style="text-shadow:0 0 5px black,0 0 3px black;">
+            <div class="z-10 flex flex-col">
+                <div
+                    class="hidden items-center justify-end gap-2 px-2 py-1 md:flex"
+                    style="
+                        text-shadow:
+                            0 0 5px black,
+                            0 0 3px black;
+                    "
+                >
                     <SocialIcons />
                     <a :href="`tel:${$$.tel}`" class="text-xl font-bold">{{ $$.tel_s }}</a>
                 </div>
-                <nav class="hidden md:flex justify-end space-x-2 text-xl font-bold" style="
-                    text-shadow:
-                        0 0 5px black,
-                        0 0 3px black;
-                ">
-                    <Link href="/search" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Search</Link>
-                    <Link href="/agents" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Agents</Link>
-                    <Link href="/contact" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4">Contact</Link>
+                <nav
+                    class="hidden justify-end space-x-2 text-xl font-bold md:flex"
+                    style="
+                        text-shadow:
+                            0 0 5px black,
+                            0 0 3px black;
+                    "
+                >
+                    <Link href="/search" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4"
+                        >Search</Link
+                    >
+                    <Link href="/agents" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4"
+                        >Agents</Link
+                    >
+                    <Link href="/contact" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4"
+                        >Contact</Link
+                    >
+                    <Link v-if="$page.props.auth.user" href="/profile" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4"
+                        >Profile</Link
+                    >
+                    <Link v-else href="/profile" class="hover:bg-linear-to-b from-white/50 to-transparent px-6 py-4"
+                    >Log In</Link
+                    >
                 </nav>
-                <MobileNav class="p-8"/>
+                <MobileNav class="p-8" />
             </div>
         </header>
         <main class="grow">
             <div :style="`background: url('${chicago_bg}')`" class="flex flex-col justify-center bg-cover text-white">
-                <div class="flex h-screen relative flex-col items-center text-center justify-center gap-4 bg-black/50">
+                <div class="relative flex h-screen flex-col items-center justify-center gap-4 bg-black/50 text-center">
                     <h1 class="text-6xl font-bold">America Real&nbsp;Estate</h1>
                     <h2 class="text-2xl">Find your home sweet home</h2>
                     <label
@@ -126,24 +148,52 @@ const contacted = ref(false);
                         />
                     </label>
                     <div v-if="citySearch !== ''" class="relative w-64 px-4">
-                        <div class="absolute -top-2 left-0 right-0 max-h-64 overflow-hidden overflow-y-auto rounded-lg border border-white/25 bg-black/25 backdrop-blur">
-                            <Link v-for="city in cityResults" :key="city" class="block px-4 py-2 hover:bg-black/50" :href="`/search?lat=${cities[city].lat}&lng=${cities[city].lng}`">{{
-                                cities[city].name
-                            }}</Link>
+                        <div
+                            class="absolute -top-2 left-0 right-0 max-h-64 overflow-hidden overflow-y-auto rounded-lg border border-white/25 bg-black/25 backdrop-blur"
+                        >
+                            <Link
+                                v-for="city in cityResults"
+                                :key="city"
+                                class="block px-4 py-2 hover:bg-black/50"
+                                :href="`/search?lat=${cities[city].lat}&lng=${cities[city].lng}`"
+                                >{{ cities[city].name }}</Link
+                            >
                         </div>
                     </div>
-                    <button @click="scrollDown" class="absolute bottom-6 cursor-pointer bg-black/25 rounded-full p-3 border-x border-white/50 backdrop-blur">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+                    <button
+                        @click="scrollDown"
+                        class="absolute bottom-6 cursor-pointer rounded-full border-x border-white/50 bg-black/25 p-3 backdrop-blur"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"
+                            />
                         </svg>
                     </button>
-                    <span class="absolute bottom-2 right-2 bg-black/25 backdrop-blur text-sm text-white/50 px-2 py-1 rounded-lg">Photo by <a class="underline" href="https://unsplash.com/@sawyerbengtson?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Sawyer Bengtson</a></span>
+                    <span
+                        class="absolute bottom-2 right-2 rounded-lg bg-black/25 px-2 py-1 text-sm text-white/50 backdrop-blur"
+                        >Photo by
+                        <a
+                            class="underline"
+                            href="https://unsplash.com/@sawyerbengtson?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                            >Sawyer Bengtson</a
+                        ></span
+                    >
                 </div>
             </div>
-            <div ref="agents" class="flex flex-col items-center px-16 gap-8 py-8">
-                <h1 class="text-6xl font-bold text-center">Our Agents</h1>
-                <div class="flex flex-wrap justify-center gap-8 w-full">
-                    <AgentCard v-for="agent in agents" :key="agent.id" :agent="agent" class="md:w-1/4"/>
+            <div ref="agents" class="flex flex-col items-center gap-8 px-16 py-8">
+                <h1 class="text-center text-6xl font-bold">Our Agents</h1>
+                <div class="flex w-full flex-wrap justify-center gap-8">
+                    <AgentCard v-for="agent in agents" :key="agent.id" :agent="agent" class="md:w-1/4" />
                 </div>
             </div>
             <div v-if="0" class="flex flex-col gap-8 px-48 py-16">
@@ -190,18 +240,18 @@ const contacted = ref(false);
             <div
                 id="contact"
                 :style="`background-image: url('${office_bg}')`"
-                class="flex flex-col justify-center bg-cover px-4 md:px-16 py-4 md:py-48 text-white"
+                class="flex flex-col justify-center bg-cover px-4 py-4 text-white md:px-16 md:py-48"
             >
-                <div class="flex flex-col md:flex-row justify-between gap-4 md:gap-8">
-                    <div class="md:w-1/2 rounded-lg bg-black/50 p-4 backdrop-blur">
+                <div class="flex flex-col justify-between gap-4 md:flex-row md:gap-8">
+                    <div class="rounded-lg bg-black/50 p-4 backdrop-blur md:w-1/2">
                         <h1 class="text-4xl font-bold">America Real Estate</h1>
                         <p>Your destination for real estate in the greater Chicago area</p>
                         <h1 class="text-2xl font-bold">Hours</h1>
                         <p>9-5 Mon-Sat</p>
                         <h1 class="text-2xl font-bold">Phone</h1>
-                        <a :href="`tel:${$$.tel}`">{{$$.tel_s}}</a>
+                        <a :href="`tel:${$$.tel}`">{{ $$.tel_s }}</a>
                     </div>
-                    <div class="flex md:w-1/2 flex-col gap-4 rounded-lg bg-black/50 p-4 backdrop-blur">
+                    <div class="flex flex-col gap-4 rounded-lg bg-black/50 p-4 backdrop-blur md:w-1/2">
                         <h2 class="text-4xl font-bold">Contact Us</h2>
                         <p v-if="contacted">Thank you for reaching out! We'll get back to you shortly!</p>
                         <div v-else class="flex flex-col gap-4">
@@ -223,15 +273,15 @@ const contacted = ref(false);
                                 class="rounded bg-white px-2 py-1 text-black placeholder:text-neutral-500"
                                 placeholder="Message"
                             ></textarea>
-                            <button @click="contactSubmit()" class="rounded-lg bg-white/25 px-4 py-1 cursor-pointer">Send</button>
+                            <button @click="contactSubmit()" class="cursor-pointer rounded-lg bg-white/25 px-4 py-1">
+                                Send
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-        <Footer/>
+        <Footer />
     </div>
 </template>
-<style>
-
-</style>
+<style></style>

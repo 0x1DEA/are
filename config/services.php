@@ -42,4 +42,21 @@ return [
     'geocodio' => [
         'key' => env('SERVICE_GEOCODIO_KEY'),
     ],
+
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT'),
+    ],
+
+    'turnstile' => [
+        'key' => env('TURNSTILE_SITE_KEY'),
+        'secret' => env('TURNSTILE_SECRET_KEY'),
+    ],
+
+    'mailjet' => [
+        'key'     => env('MAILJET_APIKEY'),
+        'secret'  => env('MAILJET_APISECRET'),
+        'sandbox' => filter_var(env('MAILJET_SANDBOX', false), FILTER_VALIDATE_BOOLEAN),
+    ],
 ];

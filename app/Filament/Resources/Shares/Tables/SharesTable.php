@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Filament\Resources\Shares\Tables;
+
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+
+class SharesTable
+{
+    public static function configure(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable(),
+                TextColumn::make('user_id')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('listing_id')
+                    ->searchable(),
+                TextColumn::make('from_name')
+                    ->searchable(),
+                TextColumn::make('from_email')
+                    ->searchable(),
+                TextColumn::make('from_phone')
+                    ->searchable(),
+                TextColumn::make('to_email')
+                    ->searchable(),
+                TextColumn::make('to_message')
+                    ->searchable(),
+                TextColumn::make('views')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+}

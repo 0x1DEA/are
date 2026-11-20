@@ -1,6 +1,6 @@
 <script setup>
 import SocialIcons from '@/components/SocialIcons.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import { $$ } from '@/lib/utils.ts';
 import MobileNav from '@/components/MobileNav.vue';
 
@@ -21,6 +21,8 @@ const props = defineProps({
                         <Link href="/search" class="px-4 py-2 text-xl font-bold">Search</Link>
                         <Link href="/agents" class="px-4 py-2 text-xl font-bold">Agents</Link>
                         <Link href="/contact" class="px-4 py-2 text-xl font-bold">Contact</Link>
+                        <Link v-if="$page.props.auth.user" href="/profile" class="px-4 py-2 text-xl font-bold">Profile</Link>
+                        <Link v-else href="/profile" class="px-4 py-2 text-xl font-bold">Log In</Link>
                     </nav>
                     <MobileNav />
                 </div>

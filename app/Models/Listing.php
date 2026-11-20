@@ -23,6 +23,7 @@ class Listing extends Model
         'listed_at' => 'datetime',
         'modified_at' => 'datetime',
         'mls_data' => 'array',
+        'geo_data' => 'array',
     ];
 
     protected $guarded = [];
