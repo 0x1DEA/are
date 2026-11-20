@@ -15,7 +15,7 @@ class ListingShare extends Mailable
 {
     use Queueable, SerializesModels, HasUlids;
 
-    public function __construct(public Listing $listing, public array $data, public Share $share) {}
+    public function __construct(public Listing $listing, public array $data, public Share $share, public string $share_id) {}
 
     public function envelope(): Envelope
     {

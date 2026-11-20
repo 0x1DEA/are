@@ -69,7 +69,7 @@
                                             photos</p>
                                     @endif
 
-                                    <x-mail::button :url="route('share.show', $share->id)">
+                                    <x-mail::button :url="route('share.show', $share_id)">
                                         View Listing
                                     </x-mail::button>
 

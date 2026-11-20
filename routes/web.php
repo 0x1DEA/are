@@ -159,8 +159,10 @@ Route::post('/listing/{listing:mls_id}/share', function (Request $request, Listi
         'sender_phone.phone' => 'Phone number must be a valid phone number (US and Mexico only).',
     ]);
 
+    $share_id = Str::ulid();
+
     $share = new Share;
-    $share->id = Str::ulid();
+    $share->id = $share_id;
     $share->listing_id = $listing->mls_id;
     $share->from_name = $data['sender_name'];
     $share->from_email = $data['sender_email'];
@@ -173,7 +175,7 @@ Route::post('/listing/{listing:mls_id}/share', function (Request $request, Listi
     $share->save();
 
     Mail::to($request->string('recipient_email')->toString())
-        ->send(new ListingShare($listing, $data, $share));
+        ->send(new ListingShare($listing, $data, $share, $share_id));
 
     return back();
 });
