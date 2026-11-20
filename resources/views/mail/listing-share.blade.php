@@ -92,8 +92,10 @@
             </table>
             <div class="footer" style="padding: 0 20px;">
                 <br />
-                <p style="text-align: left">This property listed by {{ $listing->mls_data['ListAgentFullName'] }}
-                    at {{ $listing->mls_data['ListOfficeName'] }} {{ $listing->mls_data['ListAgentMobilePhone'] }}</p>
+                @if($listing->mls_data['ListAgentFullName'])
+                    <p style="text-align: left">This property listed by {{ $listing->mls_data['ListAgentFullName'] }}
+                        {{ $listing->mls_data['ListOfficeName'] ? 'at ' . $listing->mls_data['ListOfficeName'] : '' }} {{ $listing->mls_data['ListAgentMobilePhone'] ?? '' }}</p>
+                @endif
                 <p style="text-align: left">Listings courtesy of MRED as distributed by MLS GRID</p>
                 <p style="text-align: left">
                     Based on information submitted to the MLS GRID as of {{ $listing->mls_fetched_at }}. All data is
