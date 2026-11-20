@@ -184,8 +184,13 @@ const shareForm = useForm({
 });
 
 const submitShare = () => {
-    shareForm.post(`/listing/${props.listing.mls_id}/share`);
-    lastSignupBugDismissal.value = timestamp.value - signupBugInterval.value;
+    shareForm.post(`/listing/${props.listing.mls_id}/share`, {
+        onSuccess: () => {
+            lastSignupBugDismissal.value = timestamp.value - signupBugInterval.value;
+            share.value = false;
+            shareForm.reset();
+        }
+    });
 }
 
 const signupBugInterval = ref(1000 * 60 * 15); // every 15 min
