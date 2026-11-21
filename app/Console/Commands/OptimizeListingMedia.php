@@ -25,7 +25,7 @@ class OptimizeListingMedia extends Command
 
         $media = ListingMedia::query()
             ->whereLike('url', '%.jpeg')
-            ->limit($this->option('max-runs'))
+            ->limit($this->option('limit'))
             ->orderByDesc('bytes')
             ->get();
 
